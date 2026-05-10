@@ -47,6 +47,7 @@ logs/
 
 # Docker
 docker/nginx/ssl/
+deploy/docker/nginx/ssl/
 
 # Backups
 backups/
