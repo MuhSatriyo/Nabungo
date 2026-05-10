@@ -56,6 +56,7 @@ class TransactionNotifier extends StateNotifier<TransactionState> {
     } catch (e) {
       state = state.copyWith(
         isLoading: false,
+        transactions: [],
         error: e.toString(),
       );
     }
@@ -65,7 +66,11 @@ class TransactionNotifier extends StateNotifier<TransactionState> {
     try {
       final analytics = await _dataSource.getAnalytics(period: period);
       state = state.copyWith(analytics: analytics);
-    } catch (_) {}
+    } catch (_) {
+      state = state.copyWith(
+        analytics: const AnalyticsData(summary: SummaryData()),
+      );
+    }
   }
 
   Future<void> createTransaction(Map<String, dynamic> data) async {
