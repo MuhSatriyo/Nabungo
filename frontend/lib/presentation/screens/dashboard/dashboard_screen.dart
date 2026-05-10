@@ -116,7 +116,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     onTap: () => context.push('/settings'),
                     child: CircleAvatar(
                       radius: 20,
-                      backgroundColor: Colors.white.withOpacity(0.1),
+                      backgroundColor: Colors.white.withValues(alpha: 0.1),
                       child: const Icon(Icons.settings, color: Colors.white, size: 20),
                     ),
                   ),
@@ -134,10 +134,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      const Row(
                         children: [
                           Icon(Icons.trending_down, color: AppColors.danger, size: 18),
-                          const SizedBox(width: 6),
+                          SizedBox(width: 6),
                           Text('Expense', style: TextStyle(
                             color: Colors.white70, fontSize: 12,
                           )),
@@ -164,10 +164,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      const Row(
                         children: [
                           Icon(Icons.trending_up, color: AppColors.success, size: 18),
-                          const SizedBox(width: 6),
+                          SizedBox(width: 6),
                           Text('Income', style: TextStyle(
                             color: Colors.white70, fontSize: 12,
                           )),
@@ -206,8 +206,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 color: balance >= 0
-                    ? AppColors.success.withOpacity(0.1)
-                    : AppColors.danger.withOpacity(0.1),
+                    ? AppColors.success.withValues(alpha: 0.1)
+                    : AppColors.danger.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(
@@ -272,9 +272,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             margin: const EdgeInsets.only(right: 12),
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: bgColor.withOpacity(0.1),
+              color: bgColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: bgColor.withOpacity(0.2)),
+              border: Border.all(color: bgColor.withValues(alpha: 0.2)),
             ),
             child: Row(
               children: [
@@ -285,7 +285,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(insight.title, style: TextStyle(
+                      Text(insight.title, style: const TextStyle(
                         fontWeight: FontWeight.w600, fontSize: 13,
                       )),
                       const SizedBox(height: 2),
@@ -359,7 +359,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           if (txState.isLoading)
             const ShimmerLoading(height: 300)
           else if (txState.transactions.isEmpty)
-            EmptyState(
+            const EmptyState(
               title: 'No transactions yet',
               subtitle: 'Tap + to add your first transaction',
               icon: Icons.receipt_long_outlined,
@@ -371,7 +371,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               decoration: BoxDecoration(
                 color: theme.cardTheme.color,
                 borderRadius: BorderRadius.circular(14),
-                border: Border.all(color: Colors.white.withOpacity(0.05)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
               ),
               child: Row(
                 children: [
@@ -379,8 +379,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       color: (tx.categoryColor != null
-                          ? Color(int.parse('FF${tx.categoryColor!.replaceAll('#', '')}', radix: 16))
-                          : AppColors.primary).withOpacity(0.1),
+        ? Color(int.parse('FF${tx.categoryColor!.replaceAll('#', '')}', radix: 16))
+                        : AppColors.primary).withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Icon(

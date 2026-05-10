@@ -17,15 +17,12 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   String _type = 'expense';
   double _amount = 0;
   int? _categoryId;
-  String? _categoryName;
-  String _note = '';
-  DateTime _date = DateTime.now();
   bool _isLoading = false;
 
   final _amountController = TextEditingController();
   final _noteController = TextEditingController();
 
-  final List<Map<String, dynamic>> _categories = [
+  static final List<Map<String, dynamic>> _categories = [
     {'id': 1, 'name': 'Makan', 'icon': Icons.restaurant, 'color': const Color(0xFFFF6B6B), 'type': 'expense'},
     {'id': 2, 'name': 'Jajan', 'icon': Icons.icecream, 'color': const Color(0xFFFFA502), 'type': 'expense'},
     {'id': 3, 'name': 'Transport', 'icon': Icons.directions_car, 'color': const Color(0xFF2ED573), 'type': 'expense'},
@@ -75,7 +72,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         'amount': _amount,
         'category_id': _categoryId,
         'note': _noteController.text,
-        'date': _date.toIso8601String(),
+        'date': DateTime.now().toIso8601String(),
       });
       if (mounted) {
         context.pop();
@@ -113,26 +110,26 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               child: Container(
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  color: isDark ? Colors.white10 : Colors.grey.withOpacity(0.1),
+                  color: isDark ? Colors.white10 : Colors.grey.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(16),
                 ),
                 child: Row(
                   children: [
                     Expanded(
                       child: GestureDetector(
-                        onTap: () => setState(() { _type = 'expense'; _categoryId = null; _categoryName = null; }),
+                        onTap: () => setState(() { _type = 'expense'; _categoryId = null; }),
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
                             color: _type == 'expense' ? AppColors.danger : Colors.transparent,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.trending_down, color: Colors.white, size: 18),
-                              const SizedBox(width: 6),
-                              const Text('Expense', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                              SizedBox(width: 6),
+                              Text('Expense', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -140,19 +137,19 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                     ),
                     Expanded(
                       child: GestureDetector(
-                        onTap: () => setState(() { _type = 'income'; _categoryId = null; _categoryName = null; }),
+                        onTap: () => setState(() { _type = 'income'; _categoryId = null; }),
                         child: Container(
                           padding: const EdgeInsets.symmetric(vertical: 12),
                           decoration: BoxDecoration(
                             color: _type == 'income' ? AppColors.success : Colors.transparent,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.trending_up, color: Colors.white, size: 18),
-                              const SizedBox(width: 6),
-                              const Text('Income', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                              SizedBox(width: 6),
+                              Text('Income', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -220,15 +217,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   return GestureDetector(
                     onTap: () => setState(() {
                       _categoryId = cat['id'] as int;
-                      _categoryName = cat['name'] as String;
                     }),
                     child: Container(
                       width: (MediaQuery.of(context).size.width - 56) / 4,
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       decoration: BoxDecoration(
                         color: selected
-                            ? (cat['color'] as Color).withOpacity(0.15)
-                            : (isDark ? Colors.white10 : Colors.grey.withOpacity(0.08)),
+                            ? (cat['color'] as Color).withValues(alpha: 0.15)
+                            : (isDark ? Colors.white10 : Colors.grey.withValues(alpha: 0.08)),
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: selected ? cat['color'] as Color : Colors.transparent,
@@ -275,8 +271,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 isLoading: _isLoading,
                 icon: _type == 'expense' ? Icons.trending_down : Icons.trending_up,
                 colors: _type == 'expense'
-                    ? [AppColors.danger, AppColors.danger.withOpacity(0.8)]
-                    : [AppColors.success, AppColors.success.withOpacity(0.8)],
+                    ? [AppColors.danger, AppColors.danger.withValues(alpha: 0.8)]
+                    : [AppColors.success, AppColors.success.withValues(alpha: 0.8)],
                 onPressed: _submit,
               ),
             ),

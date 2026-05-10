@@ -9,13 +9,13 @@ class Environment {
   /// For production use: https://api.nabungo.app/api
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'https://api.nabungo.app/api',
+    defaultValue: 'http://localhost:3000/api',
   );
 
   /// Flag to determine if running in production mode
   static const bool isProduction = bool.fromEnvironment(
     'PRODUCTION',
-    defaultValue: true,
+    defaultValue: false,
   );
 
   /// Flag to determine if running in debug mode

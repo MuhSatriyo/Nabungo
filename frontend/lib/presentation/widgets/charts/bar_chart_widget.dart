@@ -68,7 +68,7 @@ class SpendingBarChart extends StatelessWidget {
             drawVerticalLine: false,
             horizontalInterval: maxY / 4,
             getDrawingHorizontalLine: (value) => FlLine(
-              color: isDark ? Colors.white10 : Colors.grey.withOpacity(0.1),
+              color: isDark ? Colors.white10 : Colors.grey.withValues(alpha: 0.1),
               strokeWidth: 1,
             ),
           ),
@@ -83,8 +83,8 @@ class SpendingBarChart extends StatelessWidget {
                   color: isDark ? const Color(0xFF2ED573) : const Color(0xFF1B2A4A),
                   width: 20,
                   borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(6),
-                    topRight: Radius.circular(6),
+                    topLeft: const Radius.circular(6),
+                    topRight: const Radius.circular(6),
                   ),
                 ),
               ],

@@ -36,21 +36,21 @@ class DashboardShimmer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
+    return const Padding(
+      padding: EdgeInsets.all(16),
       child: Column(
         children: [
-          const ShimmerLoading(height: 180, borderRadius: 20),
-          const SizedBox(height: 16),
+          ShimmerLoading(height: 180, borderRadius: 20),
+          SizedBox(height: 16),
           Row(
-            children: const [
+            children: [
               Expanded(child: ShimmerLoading(height: 100, borderRadius: 16)),
               SizedBox(width: 12),
               Expanded(child: ShimmerLoading(height: 100, borderRadius: 16)),
             ],
           ),
-          const SizedBox(height: 16),
-          const ShimmerLoading(height: 200, borderRadius: 20),
+          SizedBox(height: 16),
+          ShimmerLoading(height: 200, borderRadius: 20),
         ],
       ),
     );
@@ -65,23 +65,23 @@ class TransactionShimmer extends StatelessWidget {
     return Column(
       children: List.generate(
         5,
-        (index) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+        (index) => const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           child: Row(
             children: [
-              const ShimmerLoading(width: 48, height: 48, borderRadius: 16),
-              const SizedBox(width: 12),
+              ShimmerLoading(width: 48, height: 48, borderRadius: 16),
+              SizedBox(width: 12),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
+                  children: [
                     ShimmerLoading(width: 120, height: 14),
                     SizedBox(height: 6),
                     ShimmerLoading(width: 80, height: 12),
                   ],
                 ),
               ),
-              const ShimmerLoading(width: 70, height: 14),
+              ShimmerLoading(width: 70, height: 14),
             ],
           ),
         ),

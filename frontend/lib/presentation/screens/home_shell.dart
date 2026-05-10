@@ -27,7 +27,7 @@ class _HomeShellState extends State<HomeShell> {
           color: isDark ? const Color(0xFF1C2333) : Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+              color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
               blurRadius: 20,
               offset: const Offset(0, -4),
             ),

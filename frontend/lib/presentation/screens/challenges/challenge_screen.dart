@@ -30,7 +30,6 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
     final theme = Theme.of(context);
     final gameState = ref.watch(gamificationProvider);
     final authState = ref.watch(authStateProvider);
-    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       body: SafeArea(
@@ -66,7 +65,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                                 Text('Level ${gameState.status!.level}',
                                   style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
                                 const SizedBox(height: 4),
-                                Text('${authState.user?.name ?? 'User'}',
+                                Text(authState.user?.name ?? 'User',
                                   style: theme.textTheme.bodySmall),
                                 const SizedBox(height: 8),
                                 ClipRRect(
@@ -90,7 +89,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: const Color(0xFFFF6B6B).withOpacity(0.1),
+                              color: const Color(0xFFFF6B6B).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Column(
@@ -131,7 +130,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                                 Container(
                                   width: 48, height: 48,
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFFFFD700).withOpacity(0.15),
+                                    color: const Color(0xFFFFD700).withValues(alpha: 0.15),
                                     shape: BoxShape.circle,
                                     border: Border.all(color: const Color(0xFFFFD700), width: 2),
                                   ),
@@ -183,7 +182,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                             Container(
                               padding: const EdgeInsets.all(12),
                               decoration: BoxDecoration(
-                                color: difficultyColor.withOpacity(0.1),
+                                color: difficultyColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(14),
                               ),
                               child: Icon(
@@ -209,14 +208,14 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                                       Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                                         decoration: BoxDecoration(
-                                          color: difficultyColor.withOpacity(0.15),
+                                          color: difficultyColor.withValues(alpha: 0.15),
                                           borderRadius: BorderRadius.circular(6),
                                         ),
                                         child: Text(challenge.difficulty[0].toUpperCase() + challenge.difficulty.substring(1),
                                           style: TextStyle(fontSize: 10, color: difficultyColor, fontWeight: FontWeight.w600)),
                                       ),
                                       const SizedBox(width: 8),
-                                      Icon(Icons.stars, size: 14, color: AppColors.warning),
+                                      const Icon(Icons.stars, size: 14, color: AppColors.warning),
                                       const SizedBox(width: 2),
                                       Text('+${challenge.xpReward} XP', style: const TextStyle(fontSize: 11)),
                                     ],

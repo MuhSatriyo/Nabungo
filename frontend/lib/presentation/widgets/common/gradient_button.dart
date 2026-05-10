@@ -23,7 +23,7 @@ class GradientButton extends StatelessWidget {
     final theme = Theme.of(context);
     final gradientColors = colors ?? [
       theme.colorScheme.primary,
-      theme.colorScheme.primary.withOpacity(0.8),
+      theme.colorScheme.primary.withValues(alpha: 0.8),
     ];
 
     return Container(
@@ -34,7 +34,7 @@ class GradientButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: gradientColors.first.withOpacity(0.3),
+            color: gradientColors.first.withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),

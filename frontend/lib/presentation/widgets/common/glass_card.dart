@@ -22,19 +22,19 @@ class GlassCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: isDark
-              ? [Colors.white.withOpacity(0.05), Colors.white.withOpacity(0.02)]
-              : [Colors.white.withOpacity(0.9), Colors.white.withOpacity(0.7)],
+              ? [Colors.white.withValues(alpha: 0.05), Colors.white.withValues(alpha: 0.02)]
+              : [Colors.white.withValues(alpha: 0.9), Colors.white.withValues(alpha: 0.7)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(borderRadius),
         border: Border.all(
-          color: isDark ? Colors.white.withOpacity(0.1) : Colors.white.withOpacity(0.5),
+          color: isDark ? Colors.white.withValues(alpha: 0.1) : Colors.white.withValues(alpha: 0.5),
           width: 1,
         ),
         boxShadow: boxShadow ?? [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+            color: Colors.black.withValues(alpha: isDark ? 0.3 : 0.06),
             blurRadius: 20,
             offset: const Offset(0, 4),
           ),

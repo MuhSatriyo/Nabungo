@@ -92,7 +92,7 @@ class AppTheme {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: Colors.grey.withOpacity(0.1)),
+        borderSide: BorderSide(color: Colors.grey.withValues(alpha: 0.1)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -115,7 +115,7 @@ class AppTheme {
     ),
     chipTheme: ChipThemeData(
       backgroundColor: AppColors.backgroundLight,
-      selectedColor: AppColors.primary.withOpacity(0.1),
+      selectedColor: AppColors.primary.withValues(alpha: 0.1),
       labelStyle: GoogleFonts.inter(fontSize: 13),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -223,7 +223,7 @@ class AppTheme {
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
-        borderSide: BorderSide(color: Colors.white.withOpacity(0.05)),
+        borderSide: BorderSide(color: Colors.white.withValues(alpha: 0.05)),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(16),
@@ -242,7 +242,7 @@ class AppTheme {
     ),
     chipTheme: ChipThemeData(
       backgroundColor: AppColors.cardDark,
-      selectedColor: AppColors.accent.withOpacity(0.2),
+      selectedColor: AppColors.accent.withValues(alpha: 0.2),
       labelStyle: GoogleFonts.inter(fontSize: 13, color: Colors.white),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),

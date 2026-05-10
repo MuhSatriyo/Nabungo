@@ -21,7 +21,7 @@ class LevelBadge extends StatelessWidget {
         shape: BoxShape.circle,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFFD700).withOpacity(0.3),
+            color: const Color(0xFFFFD700).withValues(alpha: 0.3),
             blurRadius: 12,
             offset: const Offset(0, 4),
           ),
@@ -108,7 +108,7 @@ class BadgeCard extends StatelessWidget {
             height: 56,
             decoration: BoxDecoration(
               color: earned
-                  ? const Color(0xFFFFD700).withOpacity(0.15)
+                  ? const Color(0xFFFFD700).withValues(alpha: 0.15)
                   : Colors.white10,
               shape: BoxShape.circle,
               border: Border.all(

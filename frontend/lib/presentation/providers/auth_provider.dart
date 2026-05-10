@@ -4,8 +4,6 @@ import '../../data/models/user_model.dart';
 import '../../data/datasources/remote/auth_remote_datasource.dart';
 import '../../data/datasources/local/local_storage.dart';
 
-final localStorageProvider = Provider<LocalStorage>((ref) => LocalStorage());
-
 final authStateProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier(
     ref.read(authRemoteDataSourceProvider),

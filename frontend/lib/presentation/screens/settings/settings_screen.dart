@@ -14,7 +14,6 @@ class SettingsScreen extends ConsumerWidget {
     final theme = Theme.of(context);
     final auth = ref.watch(authStateProvider);
     final isDark = theme.brightness == Brightness.dark;
-    final themeMode = ref.watch(themeProvider);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Settings')),
@@ -29,7 +28,7 @@ class SettingsScreen extends ConsumerWidget {
               children: [
                 CircleAvatar(
                   radius: 32,
-                  backgroundColor: theme.colorScheme.primary.withOpacity(0.1),
+                  backgroundColor: theme.colorScheme.primary.withValues(alpha: 0.1),
                   child: Text(
                     (auth.user?.name ?? 'U')[0].toUpperCase(),
                     style: theme.textTheme.headlineMedium?.copyWith(

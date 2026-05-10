@@ -44,9 +44,8 @@ class TransactionState {
 
 class TransactionNotifier extends StateNotifier<TransactionState> {
   final TransactionRemoteDataSource _dataSource;
-  final LocalStorage _localStorage;
 
-  TransactionNotifier(this._dataSource, this._localStorage)
+  TransactionNotifier(this._dataSource, LocalStorage localStorage)
       : super(const TransactionState());
 
   Future<void> loadTransactions({Map<String, dynamic>? params}) async {

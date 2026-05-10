@@ -36,7 +36,6 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
     final theme = Theme.of(context);
     final txState = ref.watch(transactionProvider);
     final analytics = txState.analytics;
-    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       body: SafeArea(
@@ -132,7 +131,7 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: AppColors.info.withOpacity(0.1),
+                              color: AppColors.info.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: const Icon(Icons.receipt_long, color: AppColors.info, size: 24),

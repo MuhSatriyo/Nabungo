@@ -4,7 +4,6 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../providers/transaction_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/common/glass_card.dart';
-import '../../widgets/common/shimmer_loading.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/utils/extensions.dart';
@@ -38,8 +37,6 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final txState = ref.watch(transactionProvider);
-    final auth = ref.watch(authStateProvider);
-    final isDark = theme.brightness == Brightness.dark;
 
     final expenses = txState.transactions.where((t) => t.type == 'expense').toList();
     final incomes = txState.transactions.where((t) => t.type == 'income').toList();
@@ -68,10 +65,10 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
-                                  color: AppColors.accent.withOpacity(0.1),
+                                  color: AppColors.accent.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
                                 ),
-                                child: Text('IDR', style: TextStyle(
+                                child: Text('IDR', style: const TextStyle(
                                   color: AppColors.accent, fontSize: 12, fontWeight: FontWeight.w600)),
                               ),
                             ],
@@ -97,7 +94,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                                     Container(
                                       padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
-                                        color: AppColors.success.withOpacity(0.1),
+                                        color: AppColors.success.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Icon(Icons.trending_up, color: AppColors.success, size: 16),
@@ -122,7 +119,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                                     Container(
                                       padding: const EdgeInsets.all(6),
                                       decoration: BoxDecoration(
-                                        color: AppColors.danger.withOpacity(0.1),
+                                        color: AppColors.danger.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(8),
                                       ),
                                       child: const Icon(Icons.trending_down, color: AppColors.danger, size: 16),
@@ -181,7 +178,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
 
   Widget _buildTransactionList(ThemeData theme, List<dynamic> transactions) {
     if (transactions.isEmpty) {
-      return EmptyState(
+      return const EmptyState(
         title: 'No transactions',
         subtitle: 'Start tracking your finances',
         icon: Icons.receipt_long_outlined,
@@ -200,7 +197,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
             decoration: BoxDecoration(
               color: theme.cardTheme.color,
               borderRadius: BorderRadius.circular(14),
-              border: Border.all(color: Colors.white.withOpacity(0.05)),
+              border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
             ),
             child: Row(
               children: [
@@ -209,7 +206,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                   decoration: BoxDecoration(
                     color: (tx.categoryColor != null
                         ? Color(int.parse('FF${tx.categoryColor!.replaceAll('#', '')}', radix: 16))
-                        : AppColors.primary).withOpacity(0.1),
+                        : AppColors.primary).withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(Icons.receipt_outlined,
