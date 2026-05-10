@@ -91,7 +91,6 @@ class SpendingBarChart extends StatelessWidget {
             ),
           ),
         ),
-        duration: const Duration(milliseconds: 500),
       ),
     );
   }

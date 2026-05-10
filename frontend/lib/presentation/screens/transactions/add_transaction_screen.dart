@@ -27,7 +27,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   final List<Map<String, dynamic>> _categories = [
     {'id': 1, 'name': 'Makan', 'icon': Icons.restaurant, 'color': const Color(0xFFFF6B6B), 'type': 'expense'},
-    {'id': 2, 'name': 'Jajan', 'icon': Icons.ice_cream, 'color': const Color(0xFFFFA502), 'type': 'expense'},
+    {'id': 2, 'name': 'Jajan', 'icon': Icons.icecream, 'color': const Color(0xFFFFA502), 'type': 'expense'},
     {'id': 3, 'name': 'Transport', 'icon': Icons.directions_car, 'color': const Color(0xFF2ED573), 'type': 'expense'},
     {'id': 4, 'name': 'Nongkrong', 'icon': Icons.local_cafe, 'color': const Color(0xFFA29BFE), 'type': 'expense'},
     {'id': 5, 'name': 'Top Up', 'icon': Icons.smartphone, 'color': const Color(0xFFFD79A8), 'type': 'expense'},

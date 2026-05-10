@@ -6,8 +6,16 @@ part of 'insight_model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-InsightModel _$InsightModelFromJson(Map<String, dynamic> json) => InsightModel(
+_$InsightModelImpl _$$InsightModelImplFromJson(Map<String, dynamic> json) =>
+    _$InsightModelImpl(
       type: json['type'] as String,
       title: json['title'] as String,
       message: json['message'] as String,
     );
+
+Map<String, dynamic> _$$InsightModelImplToJson(_$InsightModelImpl instance) =>
+    <String, dynamic>{
+      'type': instance.type,
+      'title': instance.title,
+      'message': instance.message,
+    };

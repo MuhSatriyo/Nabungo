@@ -13,6 +13,7 @@ import '../../widgets/charts/bar_chart_widget.dart';
 import '../../widgets/gamification/level_badge.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/utils/extensions.dart';
+import '../../../data/models/transaction_model.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -55,7 +56,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Header
-              _buildHeader(theme, auth, gameState, isDark),
+              _buildHeader(theme, auth, gameState, txState, isDark),
               // Quick Stats
               if (txState.analytics != null)
                 _buildQuickStats(theme, txState.analytics!),
@@ -75,7 +76,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 
-  Widget _buildHeader(ThemeData theme, AuthState auth, GamificationState game, bool isDark) {
+  Widget _buildHeader(ThemeData theme, AuthState auth, GamificationState game, TransactionState txState, bool isDark) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 48, 20, 24),
       decoration: BoxDecoration(
