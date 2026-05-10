@@ -1,6 +1,8 @@
+import 'environment.dart';
+
 class AppConstants {
   static const String appName = 'Nabungo';
-  static const String baseUrl = 'http://localhost:3000/api';
+  static const String baseUrl = Environment.apiBaseUrl;
   static const String hiveBoxName = 'nabungo_box';
   static const String tokenKey = 'auth_token';
   static const String refreshTokenKey = 'refresh_token';

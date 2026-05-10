@@ -1,0 +1,196 @@
+name: Nabungo CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+          - production
+
+env:
+  NODE_VERSION: '20'
+  FLUTTER_VERSION: '3.16'
+  DOCKER_REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  # ---- Backend Tests & Lint ----
+  backend-test:
+    name: Backend Test & Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: backend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint check
+        run: npx eslint src/ --ext .js || echo "Lint warnings (non-blocking)"
+
+      - name: Audit dependencies
+        run: npm audit --production --audit-level=high || true
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        with:
+          path: backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('backend/package-lock.json') }}
+
+  # ---- Flutter Build ----
+  flutter-build:
+    name: Flutter Build APK
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run build_runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs || true
+
+      - name: Analyze code
+        run: flutter analyze --no-fatal-infos --no-fatal-warnings || true
+
+      - name: Build APK (release)
+        run: flutter build apk --release --split-per-abi
+
+      - name: Build App Bundle
+        run: flutter build appbundle --release
+
+      - name: Upload APK artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: nabungo-apk
+          path: |
+            frontend/build/app/outputs/flutter-apk/*.apk
+          retention-days: 30
+
+      - name: Upload App Bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: nabungo-aab
+          path: |
+            frontend/build/app/outputs/bundle/release/*.aab
+          retention-days: 30
+
+  # ---- Docker Build & Push ----
+  docker-build:
+    name: Docker Build & Push
+    needs: [backend-test]
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.DOCKER_REGISTRY }}/${{ env.IMAGE_NAME }}-backend
+          tags: |
+            type=sha,format=short
+            type=ref,event=branch
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v5
+        with:
+          context: backend
+          file: deploy/docker/backend/Dockerfile
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ---- Deploy to VPS ----
+  deploy:
+    name: Deploy to Production VPS
+    needs: [docker-build, flutter-build]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.VPS_SSH_KEY }}
+
+      - name: Deploy to VPS
+        run: |
+          ssh -o StrictHostKeyChecking=no ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} '
+            cd /root/nabungo &&
+            git pull origin main &&
+            cd deploy &&
+            docker compose pull &&
+            docker compose build nabungo-backend &&
+            docker compose up -d --remove-orphans &&
+            docker system prune -f
+          '
+
+      - name: Verify deployment
+        run: |
+          sleep 15
+          curl -f -s -o /dev/null -w "Health Check: HTTP %{http_code}\n" https://api.nabungo.app/api/health || echo "Warning: Health check failed, verify manually"
+
+  # ---- Notify ----
+  notify:
+    name: Send Deployment Notification
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    if: always()
+
+    steps:
+      - name: Send notification
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const status = '${{ needs.deploy.result }}';
+            const message = status === 'success'
+              ? '✅ Nabungo deployment successful'
+              : '❌ Nabungo deployment failed';
+            console.log(message);

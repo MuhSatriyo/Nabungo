@@ -1,0 +1,153 @@
+version: '3.9'
+
+services:
+  # ---- PostgreSQL ----
+  nabungo-db:
+    image: postgres:16-alpine
+    container_name: nabungo-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-nabungo}
+      POSTGRES_USER: ${DB_USER:-nabungo}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Database password is required}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./scripts:/scripts
+    ports:
+      - "127.0.0.1:5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-nabungo} -d ${DB_NAME:-nabungo}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '1.0'
+        reservations:
+          memory: 256M
+          cpus: '0.5'
+    networks:
+      - nabungo-network
+
+  # ---- Backend API ----
+  nabungo-backend:
+    build:
+      context: ../backend
+      dockerfile: ../deploy/docker/backend/Dockerfile
+    container_name: nabungo-backend
+    restart: unless-stopped
+    depends_on:
+      nabungo-db:
+        condition: service_healthy
+    env_file:
+      - .env.production
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=nabungo-db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-nabungo}
+      - DB_USER=${DB_USER:-nabungo}
+      - DB_PASSWORD=${DB_PASSWORD:?Database password is required}
+    volumes:
+      - backend_logs:/app/logs
+    expose:
+      - "3000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.5'
+        reservations:
+          memory: 128M
+          cpus: '0.25'
+    networks:
+      - nabungo-network
+
+  # ---- Nginx Reverse Proxy ----
+  nabungo-nginx:
+    image: nginx:alpine
+    container_name: nabungo-nginx
+    restart: unless-stopped
+    depends_on:
+      nabungo-backend:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./docker/nginx/ssl:/etc/ssl:ro
+      - nginx_cache:/var/cache/nginx
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 60s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.25'
+    networks:
+      - nabungo-network
+
+  # ---- Database Backup Service (optional) ----
+  nabungo-backup:
+    image: postgres:16-alpine
+    container_name: nabungo-backup
+    restart: unless-stopped
+    depends_on:
+      nabungo-db:
+        condition: service_healthy
+    env_file:
+      - .env.production
+    environment:
+      - DB_HOST=nabungo-db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-nabungo}
+      - DB_USER=${DB_USER:-nabungo}
+      - DB_PASSWORD=${DB_PASSWORD:?Database password is required}
+    volumes:
+      - ./scripts:/scripts
+      - postgres_backups:/backups
+    entrypoint: |
+      sh -c "
+      echo '0 3 * * * /scripts/backup-db.sh' > /etc/crontabs/root
+      crond -f -l 2
+      "
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: '0.25'
+    networks:
+      - nabungo-network
+
+volumes:
+  postgres_data:
+    driver: local
+    name: nabungo_postgres_data
+  postgres_backups:
+    driver: local
+    name: nabungo_postgres_backups
+  backend_logs:
+    driver: local
+    name: nabungo_backend_logs
+  nginx_cache:
+    driver: local
+    name: nabungo_nginx_cache
+
+networks:
+  nabungo-network:
+    driver: bridge
+    name: nabungo-network
