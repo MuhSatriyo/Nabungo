@@ -16,7 +16,7 @@ const findActiveByUser = async (userId) => {
      FROM user_challenges uc
      JOIN challenges c ON uc.challenge_id = c.id
      WHERE uc.user_id = $1 AND uc.status = 'active'
-     ORDER BY uc.created_at DESC`,
+     ORDER BY uc.started_at DESC`,
     [userId]
   );
   return result.rows;

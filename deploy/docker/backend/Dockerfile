@@ -4,7 +4,7 @@ FROM node:20-alpine AS builder
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm ci --only=production --ignore-scripts && \
+RUN npm install --omit=dev --ignore-scripts --no-audit --no-fund && \
     npm cache clean --force
 
 # ---- Production Stage ----
