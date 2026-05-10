@@ -33,6 +33,7 @@ frontend/coverage/
 # Generated
 frontend/**/*.freezed.dart
 frontend/**/*.g.dart
+!frontend/lib/data/models/*.freezed.dart
 !frontend/lib/data/models/*.g.dart
 
 # Logs
