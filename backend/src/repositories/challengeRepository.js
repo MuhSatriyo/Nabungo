@@ -12,7 +12,8 @@ const findById = async (id) => {
 
 const findActiveByUser = async (userId) => {
   const result = await db.query(
-    `SELECT uc.*, c.title, c.description, c.difficulty, c.xp_reward, c.days_required, c.icon
+    `SELECT uc.*, c.title, c.description, c.difficulty, c.xp_reward, c.days_required, c.icon,
+            c.requirement_type, c.requirement_value
      FROM user_challenges uc
      JOIN challenges c ON uc.challenge_id = c.id
      WHERE uc.user_id = $1 AND uc.status = 'active'
@@ -58,4 +59,16 @@ const completeChallenge = async (userId, challengeId) => {
   return result.rows[0];
 };
 
-module.exports = { findAll, findById, findActiveByUser, joinChallenge, updateProgress, completeChallenge };
+const getAllActiveByUser = async (userId) => {
+  const result = await db.query(
+    `SELECT c.*, uc.status as join_status, uc.progress, uc.started_at, uc.completed_at
+     FROM user_challenges uc
+     JOIN challenges c ON uc.challenge_id = c.id
+     WHERE uc.user_id = $1
+     ORDER BY uc.status, uc.started_at DESC`,
+    [userId]
+  );
+  return result.rows;
+};
+
+module.exports = { findAll, findById, findActiveByUser, joinChallenge, updateProgress, completeChallenge, getAllActiveByUser };

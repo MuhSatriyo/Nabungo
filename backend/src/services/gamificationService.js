@@ -113,4 +113,77 @@ const getGamificationStatus = async (userId) => {
   };
 };
 
-module.exports = { getXpAndLevel, addXp, checkAndAwardBadges, getGamificationStatus };
+const updateChallengeProgress = async (userId) => {
+  const challenges = await challengeRepository.findActiveByUser(userId);
+  for (const uc of challenges) {
+    let current = uc.progress || 0;
+    const requirementType = uc.requirement_type || 'transaction_count';
+    const requirementValue = parseInt(uc.requirement_value || uc.days_required || 1);
+
+    switch (requirementType) {
+      case 'transaction_count': {
+        const r = await db.query(
+          'SELECT COUNT(*) as count FROM transactions WHERE user_id = $1',
+          [userId]
+        );
+        current = Math.min(parseInt(r.rows[0].count), requirementValue);
+        break;
+      }
+      case 'expense_total': {
+        const r = await db.query(
+          "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE user_id = $1 AND type = 'expense'",
+          [userId]
+        );
+        current = Math.min(parseFloat(r.rows[0].total), requirementValue);
+        break;
+      }
+      case 'income_total': {
+        const r = await db.query(
+          "SELECT COALESCE(SUM(amount), 0) as total FROM transactions WHERE user_id = $1 AND type = 'income'",
+          [userId]
+        );
+        current = Math.min(parseFloat(r.rows[0].total), requirementValue);
+        break;
+      }
+      case 'streak': {
+        const streak = await streakRepository.getCurrentStreak(userId);
+        current = Math.min(streak.current_streak || 0, requirementValue);
+        break;
+      }
+      default:
+        continue;
+    }
+
+    await challengeRepository.updateProgress(userId, uc.challenge_id, current);
+  }
+};
+
+const claimChallenge = async (userId, challengeId) => {
+  const challenge = await challengeRepository.findById(challengeId);
+  if (!challenge) throw new Error('Challenge not found');
+
+  const uc = await db.query(
+    `SELECT * FROM user_challenges WHERE user_id = $1 AND challenge_id = $2 AND status = 'active'`,
+    [userId, challengeId]
+  );
+  if (uc.rows.length === 0) throw new Error('Challenge not joined');
+
+  const userChallenge = uc.rows[0];
+
+  let requirementValue = parseInt(challenge.requirement_value || challenge.days_required || 1);
+  if (userChallenge.progress < requirementValue) {
+    throw new Error(`Progress ${userChallenge.progress}/${requirementValue} not complete yet`);
+  }
+
+  await challengeRepository.completeChallenge(userId, challengeId);
+  const xpResult = await addXp(userId, challenge.xp_reward);
+  await checkAndAwardBadges(userId);
+
+  return {
+    xpEarned: challenge.xp_reward,
+    xp: parseInt(xpResult.xp),
+    level: parseInt(xpResult.level),
+  };
+};
+
+module.exports = { getXpAndLevel, addXp, checkAndAwardBadges, getGamificationStatus, updateChallengeProgress, claimChallenge };

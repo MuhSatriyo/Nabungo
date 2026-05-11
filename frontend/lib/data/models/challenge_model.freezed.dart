@@ -388,6 +388,10 @@ mixin _$UserChallenge {
   int? get xpReward => throw _privateConstructorUsedError;
   @JsonKey(name: 'days_required')
   int? get daysRequired => throw _privateConstructorUsedError;
+  @JsonKey(name: 'requirement_type')
+  String? get requirementType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'requirement_value')
+  String? get requirementValue => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
   @JsonKey(name: 'started_at')
   DateTime? get startedAt => throw _privateConstructorUsedError;
@@ -417,6 +421,8 @@ abstract class $UserChallengeCopyWith<$Res> {
       String? difficulty,
       @JsonKey(name: 'xp_reward') int? xpReward,
       @JsonKey(name: 'days_required') int? daysRequired,
+      @JsonKey(name: 'requirement_type') String? requirementType,
+      @JsonKey(name: 'requirement_value') String? requirementValue,
       String? icon,
       @JsonKey(name: 'started_at') DateTime? startedAt,
       @JsonKey(name: 'completed_at') DateTime? completedAt});
@@ -445,6 +451,8 @@ class _$UserChallengeCopyWithImpl<$Res, $Val extends UserChallenge>
     Object? difficulty = freezed,
     Object? xpReward = freezed,
     Object? daysRequired = freezed,
+    Object? requirementType = freezed,
+    Object? requirementValue = freezed,
     Object? icon = freezed,
     Object? startedAt = freezed,
     Object? completedAt = freezed,
@@ -490,6 +498,14 @@ class _$UserChallengeCopyWithImpl<$Res, $Val extends UserChallenge>
           ? _value.daysRequired
           : daysRequired // ignore: cast_nullable_to_non_nullable
               as int?,
+      requirementType: freezed == requirementType
+          ? _value.requirementType
+          : requirementType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      requirementValue: freezed == requirementValue
+          ? _value.requirementValue
+          : requirementValue // ignore: cast_nullable_to_non_nullable
+              as String?,
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -525,6 +541,8 @@ abstract class _$$UserChallengeImplCopyWith<$Res>
       String? difficulty,
       @JsonKey(name: 'xp_reward') int? xpReward,
       @JsonKey(name: 'days_required') int? daysRequired,
+      @JsonKey(name: 'requirement_type') String? requirementType,
+      @JsonKey(name: 'requirement_value') String? requirementValue,
       String? icon,
       @JsonKey(name: 'started_at') DateTime? startedAt,
       @JsonKey(name: 'completed_at') DateTime? completedAt});
@@ -551,6 +569,8 @@ class __$$UserChallengeImplCopyWithImpl<$Res>
     Object? difficulty = freezed,
     Object? xpReward = freezed,
     Object? daysRequired = freezed,
+    Object? requirementType = freezed,
+    Object? requirementValue = freezed,
     Object? icon = freezed,
     Object? startedAt = freezed,
     Object? completedAt = freezed,
@@ -596,6 +616,14 @@ class __$$UserChallengeImplCopyWithImpl<$Res>
           ? _value.daysRequired
           : daysRequired // ignore: cast_nullable_to_non_nullable
               as int?,
+      requirementType: freezed == requirementType
+          ? _value.requirementType
+          : requirementType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      requirementValue: freezed == requirementValue
+          ? _value.requirementValue
+          : requirementValue // ignore: cast_nullable_to_non_nullable
+              as String?,
       icon: freezed == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -626,6 +654,8 @@ class _$UserChallengeImpl implements _UserChallenge {
       this.difficulty,
       @JsonKey(name: 'xp_reward') this.xpReward,
       @JsonKey(name: 'days_required') this.daysRequired,
+      @JsonKey(name: 'requirement_type') this.requirementType,
+      @JsonKey(name: 'requirement_value') this.requirementValue,
       this.icon,
       @JsonKey(name: 'started_at') this.startedAt,
       @JsonKey(name: 'completed_at') this.completedAt});
@@ -659,6 +689,12 @@ class _$UserChallengeImpl implements _UserChallenge {
   @JsonKey(name: 'days_required')
   final int? daysRequired;
   @override
+  @JsonKey(name: 'requirement_type')
+  final String? requirementType;
+  @override
+  @JsonKey(name: 'requirement_value')
+  final String? requirementValue;
+  @override
   final String? icon;
   @override
   @JsonKey(name: 'started_at')
@@ -669,7 +705,7 @@ class _$UserChallengeImpl implements _UserChallenge {
 
   @override
   String toString() {
-    return 'UserChallenge(id: $id, userId: $userId, challengeId: $challengeId, status: $status, progress: $progress, title: $title, description: $description, difficulty: $difficulty, xpReward: $xpReward, daysRequired: $daysRequired, icon: $icon, startedAt: $startedAt, completedAt: $completedAt)';
+    return 'UserChallenge(id: $id, userId: $userId, challengeId: $challengeId, status: $status, progress: $progress, title: $title, description: $description, difficulty: $difficulty, xpReward: $xpReward, daysRequired: $daysRequired, requirementType: $requirementType, requirementValue: $requirementValue, icon: $icon, startedAt: $startedAt, completedAt: $completedAt)';
   }
 
   @override
@@ -693,6 +729,10 @@ class _$UserChallengeImpl implements _UserChallenge {
                 other.xpReward == xpReward) &&
             (identical(other.daysRequired, daysRequired) ||
                 other.daysRequired == daysRequired) &&
+            (identical(other.requirementType, requirementType) ||
+                other.requirementType == requirementType) &&
+            (identical(other.requirementValue, requirementValue) ||
+                other.requirementValue == requirementValue) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.startedAt, startedAt) ||
                 other.startedAt == startedAt) &&
@@ -714,6 +754,8 @@ class _$UserChallengeImpl implements _UserChallenge {
       difficulty,
       xpReward,
       daysRequired,
+      requirementType,
+      requirementValue,
       icon,
       startedAt,
       completedAt);
@@ -744,6 +786,8 @@ abstract class _UserChallenge implements UserChallenge {
           final String? difficulty,
           @JsonKey(name: 'xp_reward') final int? xpReward,
           @JsonKey(name: 'days_required') final int? daysRequired,
+          @JsonKey(name: 'requirement_type') final String? requirementType,
+          @JsonKey(name: 'requirement_value') final String? requirementValue,
           final String? icon,
           @JsonKey(name: 'started_at') final DateTime? startedAt,
           @JsonKey(name: 'completed_at') final DateTime? completedAt}) =
@@ -776,6 +820,12 @@ abstract class _UserChallenge implements UserChallenge {
   @override
   @JsonKey(name: 'days_required')
   int? get daysRequired;
+  @override
+  @JsonKey(name: 'requirement_type')
+  String? get requirementType;
+  @override
+  @JsonKey(name: 'requirement_value')
+  String? get requirementValue;
   @override
   String? get icon;
   @override

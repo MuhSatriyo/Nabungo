@@ -37,4 +37,13 @@ const getGamificationStatus = async (req, res, next) => {
   }
 };
 
-module.exports = { getAll, getActive, join, getGamificationStatus };
+const claim = async (req, res, next) => {
+  try {
+    const result = await gamificationService.claimChallenge(req.user.id, parseInt(req.params.id));
+    res.json({ success: true, data: result });
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { getAll, getActive, join, getGamificationStatus, claim };

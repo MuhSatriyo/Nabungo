@@ -150,6 +150,143 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                     ),
                   ],
                 ],
+                // Active Challenges
+                if (gameState.status?.activeChallenges != null &&
+                    gameState.status!.activeChallenges.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+                    child: Text(ref.tr('active_challenges'), style: theme.textTheme.titleMedium),
+                  ),
+                  ...gameState.status!.activeChallenges.map((uc) {
+                    final target = int.tryParse(uc.requirementValue ?? '') ?? uc.daysRequired ?? 1;
+                    final progress = uc.progress;
+                    final isComplete = progress >= target;
+                    final ratio = (progress / target).clamp(0.0, 1.0);
+
+                    Color difficultyColor;
+                    switch (uc.difficulty) {
+                      case 'easy':
+                        difficultyColor = AppColors.success;
+                        break;
+                      case 'medium':
+                        difficultyColor = AppColors.warning;
+                        break;
+                      default:
+                        difficultyColor = AppColors.danger;
+                    }
+
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      child: GlassCard(
+                        padding: const EdgeInsets.all(16),
+                        borderRadius: 16,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.all(12),
+                                  decoration: BoxDecoration(
+                                    color: difficultyColor.withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  child: Icon(
+                                    isComplete ? Icons.check_circle : Icons.emoji_events,
+                                    color: isComplete ? AppColors.success : AppColors.accent,
+                                    size: 28,
+                                  ),
+                                ),
+                                const SizedBox(width: 16),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(uc.title ?? '',
+                                        style: theme.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600)),
+                                      if (uc.description != null && uc.description!.isNotEmpty) ...[
+                                        const SizedBox(height: 4),
+                                        Text(uc.description!,
+                                          style: theme.textTheme.bodySmall, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                      ],
+                                      const SizedBox(height: 6),
+                                      Row(
+                                        children: [
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                            decoration: BoxDecoration(
+                                              color: difficultyColor.withValues(alpha: 0.15),
+                                              borderRadius: BorderRadius.circular(6),
+                                            ),
+                                            child: Text(
+                                              uc.difficulty != null
+                                                  ? uc.difficulty![0].toUpperCase() + uc.difficulty!.substring(1)
+                                                  : '',
+                                              style: TextStyle(fontSize: 10, color: difficultyColor, fontWeight: FontWeight.w600)),
+                                          ),
+                                          const SizedBox(width: 8),
+                                          const Icon(Icons.stars, size: 14, color: AppColors.warning),
+                                          const SizedBox(width: 2),
+                                          Text(ref.tr('xp_reward', params: {'xp': (uc.xpReward ?? 0).toString()}),
+                                            style: const TextStyle(fontSize: 11)),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 12),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(4),
+                              child: LinearProgressIndicator(
+                                value: ratio,
+                                backgroundColor: Colors.white12,
+                                valueColor: AlwaysStoppedAnimation<Color>(
+                                  isComplete ? AppColors.success : AppColors.accent,
+                                ),
+                                minHeight: 6,
+                              ),
+                            ),
+                            const SizedBox(height: 6),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  ref.tr('progress_format', params: {
+                                    'current': progress.toString(),
+                                    'target': target.toString(),
+                                  }),
+                                  style: theme.textTheme.bodySmall?.copyWith(fontSize: 11),
+                                ),
+                                if (isComplete)
+                                  SizedBox(
+                                    height: 32,
+                                    child: ElevatedButton(
+                                      onPressed: () async {
+                                        await ref.read(gamificationProvider.notifier).claimChallenge(uc.challengeId);
+                                        if (mounted) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text(ref.tr('xp_reward', params: {'xp': (uc.xpReward ?? 0).toString()}))),
+                                          );
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                                        minimumSize: Size.zero,
+                                        backgroundColor: AppColors.success,
+                                      ),
+                                      child: Text(ref.tr('claim'), style: const TextStyle(fontSize: 12)),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                ],
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
@@ -163,7 +300,12 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                     child: Center(child: Text(ref.tr('no_challenges'), style: theme.textTheme.bodyMedium)),
                   )
                 else
-                  ...gameState.challenges.map((challenge) {
+                  ...gameState.challenges.where((c) {
+                    final activeIds = gameState.status?.activeChallenges
+                        .map((uc) => uc.challengeId)
+                        .toSet() ?? {};
+                    return !activeIds.contains(c.id);
+                  }).map((challenge) {
                     Color difficultyColor;
                     switch (challenge.difficulty) {
                       case 'easy':
@@ -223,8 +365,8 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                               ),
                             ),
                             ElevatedButton(
-                              onPressed: () {
-                                ref.read(gamificationProvider.notifier).joinChallenge(challenge.id);
+                              onPressed: () async {
+                                await ref.read(gamificationProvider.notifier).joinChallenge(challenge.id);
                               },
                               style: ElevatedButton.styleFrom(
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

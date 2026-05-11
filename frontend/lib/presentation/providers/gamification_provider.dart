@@ -76,8 +76,20 @@ class GamificationNotifier extends StateNotifier<GamificationState> {
     try {
       await _client.post('/challenges/$challengeId/join');
       await loadStatus();
+      await loadChallenges();
     } catch (e) {
       state = state.copyWith(error: e.toString());
+    }
+  }
+
+  Future<void> claimChallenge(int challengeId) async {
+    try {
+      state = state.copyWith(isLoading: true);
+      await _client.post('/challenges/$challengeId/claim');
+      await loadStatus();
+      await loadChallenges();
+    } catch (e) {
+      state = state.copyWith(isLoading: false, error: e.toString());
     }
   }
 

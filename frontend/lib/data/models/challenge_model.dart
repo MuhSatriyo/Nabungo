@@ -35,6 +35,8 @@ class UserChallenge with _$UserChallenge {
     String? difficulty,
     @JsonKey(name: 'xp_reward') int? xpReward,
     @JsonKey(name: 'days_required') int? daysRequired,
+    @JsonKey(name: 'requirement_type') String? requirementType,
+    @JsonKey(name: 'requirement_value') String? requirementValue,
     String? icon,
     @JsonKey(name: 'started_at') DateTime? startedAt,
     @JsonKey(name: 'completed_at') DateTime? completedAt,

@@ -47,6 +47,8 @@ _$UserChallengeImpl _$$UserChallengeImplFromJson(Map<String, dynamic> json) =>
       difficulty: json['difficulty'] as String?,
       xpReward: (json['xp_reward'] as num?)?.toInt(),
       daysRequired: (json['days_required'] as num?)?.toInt(),
+      requirementType: json['requirement_type'] as String?,
+      requirementValue: json['requirement_value'] as String?,
       icon: json['icon'] as String?,
       startedAt: json['started_at'] == null
           ? null
@@ -68,6 +70,8 @@ Map<String, dynamic> _$$UserChallengeImplToJson(_$UserChallengeImpl instance) =>
       'difficulty': instance.difficulty,
       'xp_reward': instance.xpReward,
       'days_required': instance.daysRequired,
+      'requirement_type': instance.requirementType,
+      'requirement_value': instance.requirementValue,
       'icon': instance.icon,
       'started_at': instance.startedAt?.toIso8601String(),
       'completed_at': instance.completedAt?.toIso8601String(),

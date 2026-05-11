@@ -1,10 +1,12 @@
 const transactionService = require('../services/transactionService');
 const streakRepository = require('../repositories/streakRepository');
+const gamificationService = require('../services/gamificationService');
 
 const create = async (req, res, next) => {
   try {
     const transaction = await transactionService.create(req.user.id, req.body);
     await streakRepository.updateStreak(req.user.id);
+    await gamificationService.updateChallengeProgress(req.user.id);
     res.status(201).json({ success: true, data: transaction });
   } catch (error) {
     next(error);
