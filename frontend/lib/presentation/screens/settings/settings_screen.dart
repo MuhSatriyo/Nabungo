@@ -236,10 +236,12 @@ class SettingsScreen extends ConsumerWidget {
     int fromMonth = now.month;
     int fromYear = now.year;
     int fromHour = now.hour;
+    int fromMinute = now.minute;
     int toDay = now.day;
     int toMonth = now.month;
     int toYear = now.year;
     int toHour = now.hour;
+    int toMinute = now.minute;
 
     showModalBottomSheet(
       context: context,
@@ -279,12 +281,23 @@ class SettingsScreen extends ConsumerWidget {
                   Row(
                     children: [
                       _DateDropdown(label: ref.tr('export_date'), value: fromDay, max: maxDayFrom, onChanged: (v) => setSheetState(() => fromDay = v)),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       _DateDropdown(label: ref.tr('export_month'), value: fromMonth, max: 12, display: (v) => _months[v - 1], onChanged: (v) => setSheetState(() => fromMonth = v)),
-                      const SizedBox(width: 8),
-                      _DateDropdown(label: ref.tr('export_year'), value: fromYear, max: now.year, min: now.year - 2, onChanged: (v) => setSheetState(() => fromYear = v)),
-                      const SizedBox(width: 8),
-                      _DateDropdown(label: ref.tr('export_hour'), value: fromHour, max: 23, display: (v) => v.toString().padLeft(2, '0'), onChanged: (v) => setSheetState(() => fromHour = v)),
+                      const SizedBox(width: 6),
+                      _DateDropdown(label: ref.tr('export_year'), value: fromYear, max: now.year, min: now.year - 1, onChanged: (v) => setSheetState(() => fromYear = v)),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(child: _DateDropdown(label: ref.tr('export_hour'), value: fromHour, max: 23, display: (v) => v.toString().padLeft(2, '0'), onChanged: (v) => setSheetState(() => fromHour = v))),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16, left: 2, right: 2),
+                              child: Text(':', style: TextStyle(fontSize: 12, color: theme.textTheme.bodySmall?.color)),
+                            ),
+                            Expanded(child: _DateDropdown(label: ref.tr('export_minute'), value: fromMinute, max: 59, display: (v) => v.toString().padLeft(2, '0'), onChanged: (v) => setSheetState(() => fromMinute = v))),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 16),
@@ -294,12 +307,23 @@ class SettingsScreen extends ConsumerWidget {
                   Row(
                     children: [
                       _DateDropdown(label: ref.tr('export_date'), value: toDay, max: maxDayTo, onChanged: (v) => setSheetState(() => toDay = v)),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       _DateDropdown(label: ref.tr('export_month'), value: toMonth, max: 12, display: (v) => _months[v - 1], onChanged: (v) => setSheetState(() => toMonth = v)),
-                      const SizedBox(width: 8),
-                      _DateDropdown(label: ref.tr('export_year'), value: toYear, max: now.year, min: now.year - 2, onChanged: (v) => setSheetState(() => toYear = v)),
-                      const SizedBox(width: 8),
-                      _DateDropdown(label: ref.tr('export_hour'), value: toHour, max: 23, display: (v) => v.toString().padLeft(2, '0'), onChanged: (v) => setSheetState(() => toHour = v)),
+                      const SizedBox(width: 6),
+                      _DateDropdown(label: ref.tr('export_year'), value: toYear, max: now.year, min: now.year - 1, onChanged: (v) => setSheetState(() => toYear = v)),
+                      const SizedBox(width: 6),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(child: _DateDropdown(label: ref.tr('export_hour'), value: toHour, max: 23, display: (v) => v.toString().padLeft(2, '0'), onChanged: (v) => setSheetState(() => toHour = v))),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16, left: 2, right: 2),
+                              child: Text(':', style: TextStyle(fontSize: 12, color: theme.textTheme.bodySmall?.color)),
+                            ),
+                            Expanded(child: _DateDropdown(label: ref.tr('export_minute'), value: toMinute, max: 59, display: (v) => v.toString().padLeft(2, '0'), onChanged: (v) => setSheetState(() => toMinute = v))),
+                          ],
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 20),
@@ -308,8 +332,8 @@ class SettingsScreen extends ConsumerWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         Navigator.pop(ctx);
-                        final start = DateTime(fromYear, fromMonth, fromDay, fromHour);
-                        final end = DateTime(toYear, toMonth, toDay, toHour);
+                        final start = DateTime(fromYear, fromMonth, fromDay, fromHour, fromMinute);
+                        final end = DateTime(toYear, toMonth, toDay, toHour, toMinute);
                         _exportTransactions(context, ref, start, end);
                       },
                       style: ElevatedButton.styleFrom(
