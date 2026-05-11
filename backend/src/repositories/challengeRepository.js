@@ -23,6 +23,13 @@ const findActiveByUser = async (userId) => {
 };
 
 const joinChallenge = async (userId, challengeId) => {
+  const existing = await db.query(
+    `SELECT * FROM user_challenges WHERE user_id = $1 AND challenge_id = $2 AND status = 'active'`,
+    [userId, challengeId]
+  );
+  if (existing.rows.length > 0) {
+    return existing.rows[0];
+  }
   const result = await db.query(
     `INSERT INTO user_challenges (user_id, challenge_id, status) 
      VALUES ($1, $2, 'active') RETURNING *`,
