@@ -1,6 +1,10 @@
-const { Pool } = require('pg');
+const { Pool, types } = require('pg');
 const logger = require('../utils/logger');
 require('dotenv').config();
+
+// Parse numeric/decimal types as numbers instead of strings
+types.setTypeParser(1700, (val) => parseFloat(val)); // NUMERIC
+types.setTypeParser(20, (val) => parseInt(val, 10)); // INT8 (BIGINT)
 
 const poolConfig = {
   host: process.env.DB_HOST || 'localhost',
