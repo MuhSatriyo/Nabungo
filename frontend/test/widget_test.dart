@@ -9,7 +9,7 @@ import 'package:nabungo/core/constants/colors.dart';
 
 void main() {
   testWidgets('NabungoApp renders without error', (WidgetTester tester) async {
-    await tester.pumpWidget(ProviderScope(child: NabungoApp(isDark: false, initialLocale: 'id')));
+    await tester.pumpWidget(const ProviderScope(child: NabungoApp(isDark: false)));
     expect(find.text('Nabungo'), findsOneWidget);
   });
 
