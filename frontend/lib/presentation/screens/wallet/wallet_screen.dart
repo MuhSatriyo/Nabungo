@@ -8,6 +8,7 @@ import '../../widgets/common/empty_state.dart';
 import '../../widgets/common/shimmer_loading.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/utils/extensions.dart';
+import '../../../data/models/transaction_model.dart';
 
 class WalletScreen extends ConsumerStatefulWidget {
   const WalletScreen({super.key});
@@ -196,7 +197,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
     ).animate().fadeIn(duration: 400.ms);
   }
 
-  Widget _buildTransactionList(ThemeData theme, List<dynamic> transactions, bool isLoading) {
+  Widget _buildTransactionList(ThemeData theme, List<TransactionModel> transactions, bool isLoading) {
     if (isLoading && transactions.isEmpty) {
       return const TransactionShimmer();
     }

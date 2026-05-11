@@ -14,6 +14,7 @@ import '../../widgets/gamification/level_badge.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/utils/extensions.dart';
 import '../../../data/models/transaction_model.dart';
+import '../../../data/models/insight_model.dart';
 
 class DashboardScreen extends ConsumerStatefulWidget {
   const DashboardScreen({super.key});
@@ -247,7 +248,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     );
   }
 
-  Widget _buildInsights(ThemeData theme, List<dynamic> insights) {
+  Widget _buildInsights(ThemeData theme, List<InsightModel> insights) {
     return SizedBox(
       height: 100,
       child: ListView.builder(
