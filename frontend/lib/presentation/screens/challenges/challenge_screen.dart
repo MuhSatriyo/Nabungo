@@ -7,6 +7,7 @@ import '../../widgets/common/glass_card.dart';
 import '../../widgets/common/shimmer_loading.dart';
 import '../../widgets/gamification/level_badge.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/translations_extension.dart';
 
 class ChallengeScreen extends ConsumerStatefulWidget {
   const ChallengeScreen({super.key});
@@ -45,7 +46,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-                  child: Text('Challenges', style: theme.textTheme.displayMedium),
+                  child: Text(ref.tr('challenges'), style: theme.textTheme.displayMedium),
                 ),
                 // Gamification Status
                 if (gameState.status != null) ...[
@@ -62,7 +63,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Level ${gameState.status!.level}',
+                                Text(ref.tr('level', params: {'level': gameState.status!.level.toString()}),
                                   style: theme.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold)),
                                 const SizedBox(height: 4),
                                 Text(authState.user?.name ?? 'User',
@@ -80,8 +81,10 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                                   ),
                                 ),
                                 const SizedBox(height: 4),
-                                Text('${gameState.status!.xp} / ${gameState.status!.xpForNextLevel} XP',
-                                  style: theme.textTheme.bodySmall?.copyWith(fontSize: 11)),
+                                Text(ref.tr('xp_progress', params: {
+                                  'xp': gameState.status!.xp.toString(),
+                                  'max': gameState.status!.xpForNextLevel.toString(),
+                                }), style: theme.textTheme.bodySmall?.copyWith(fontSize: 11)),
                               ],
                             ),
                           ),
@@ -112,7 +115,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                   if (gameState.status!.badges.isNotEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.fromLTRB(20, 20, 20, 8),
-                      child: Text('Badges', style: theme.textTheme.titleMedium),
+                      child: Text(ref.tr('badges'), style: theme.textTheme.titleMedium),
                     ),
                     SizedBox(
                       height: 100,
@@ -150,14 +153,14 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 8, 20, 8),
-                  child: Text('Available Challenges', style: theme.textTheme.titleMedium),
+                  child: Text(ref.tr('available_challenges'), style: theme.textTheme.titleMedium),
                 ),
                 if (gameState.isLoading)
                   const TransactionShimmer()
                 else if (gameState.challenges.isEmpty)
                   Padding(
                     padding: const EdgeInsets.all(40),
-                    child: Center(child: Text('No challenges available', style: theme.textTheme.bodyMedium)),
+                    child: Center(child: Text(ref.tr('no_challenges'), style: theme.textTheme.bodyMedium)),
                   )
                 else
                   ...gameState.challenges.map((challenge) {
@@ -185,12 +188,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                                 color: difficultyColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(14),
                               ),
-                              child: Icon(
-                                challenge.icon == null
-                                    ? Icons.emoji_events
-                                    : Icons.emoji_events,
-                                color: difficultyColor, size: 28,
-                              ),
+                              child: const Icon(Icons.emoji_events, color: AppColors.accent, size: 28),
                             ),
                             const SizedBox(width: 16),
                             Expanded(
@@ -217,7 +215,8 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                                       const SizedBox(width: 8),
                                       const Icon(Icons.stars, size: 14, color: AppColors.warning),
                                       const SizedBox(width: 2),
-                                      Text('+${challenge.xpReward} XP', style: const TextStyle(fontSize: 11)),
+                                      Text(ref.tr('xp_reward', params: {'xp': challenge.xpReward.toString()}),
+                                        style: const TextStyle(fontSize: 11)),
                                     ],
                                   ),
                                 ],
@@ -231,7 +230,7 @@ class _ChallengeScreenState extends ConsumerState<ChallengeScreen> {
                                 padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                                 minimumSize: Size.zero,
                               ),
-                              child: const Text('Join', style: TextStyle(fontSize: 12)),
+                              child: Text(ref.tr('join'), style: const TextStyle(fontSize: 12)),
                             ),
                           ],
                         ),

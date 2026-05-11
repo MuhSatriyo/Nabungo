@@ -6,6 +6,7 @@ import '../../providers/auth_provider.dart';
 import '../../widgets/common/gradient_button.dart';
 import '../../../core/constants/dummy_data.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/translations_extension.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -69,10 +70,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Text('Welcome\nBack!', style: theme.textTheme.displayLarge),
+                Text(ref.tr('welcome_back'), style: theme.textTheme.displayLarge),
                 const SizedBox(height: 8),
                 Text(
-                  'Track your finances and save more',
+                  ref.tr('login_subtitle'),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.textTheme.bodyMedium?.color,
                   ),
@@ -81,13 +82,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined),
+                  decoration: InputDecoration(
+                    labelText: ref.tr('email'),
+                    prefixIcon: const Icon(Icons.email_outlined),
                   ),
                   validator: (v) {
-                    if (v == null || v.isEmpty) return 'Email is required';
-                    if (!v.contains('@')) return 'Invalid email';
+                    if (v == null || v.isEmpty) return ref.tr('email_required');
+                    if (!v.contains('@')) return ref.tr('invalid_email');
                     return null;
                   },
                 ),
@@ -96,7 +97,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   controller: _passwordController,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: ref.tr('password'),
                     prefixIcon: const Icon(Icons.lock_outlined),
                     suffixIcon: IconButton(
                       icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
@@ -104,7 +105,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                   validator: (v) {
-                    if (v == null || v.isEmpty) return 'Password is required';
+                    if (v == null || v.isEmpty) return ref.tr('password_required');
                     return null;
                   },
                 ),
@@ -113,7 +114,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () {},
-                    child: const Text('Forgot Password?'),
+                    child: Text(ref.tr('forgot_password')),
                   ),
                 ),
                 const SizedBox(height: 24),
@@ -138,7 +139,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ),
                   ),
                 GradientButton(
-                  label: 'Login',
+                  label: ref.tr('login'),
                   isLoading: authState.isLoading,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -153,11 +154,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Don't have an account?",
+                    Text(ref.tr('no_account'),
                       style: theme.textTheme.bodyMedium),
                     TextButton(
                       onPressed: () => context.go('/register'),
-                      child: const Text('Register'),
+                      child: Text(ref.tr('register_link')),
                     ),
                   ],
                 ),

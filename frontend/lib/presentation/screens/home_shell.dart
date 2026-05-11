@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import '../../core/localization/translations_extension.dart';
 
-class HomeShell extends StatefulWidget {
+class HomeShell extends ConsumerStatefulWidget {
   final Widget child;
 
   const HomeShell({super.key, required this.child});
 
   @override
-  State<HomeShell> createState() => _HomeShellState();
+  ConsumerState<HomeShell> createState() => _HomeShellState();
 }
 
-class _HomeShellState extends State<HomeShell> {
+class _HomeShellState extends ConsumerState<HomeShell> {
   int _currentIndex = 0;
 
   final _pages = ['/dashboard', '/statistics', '/challenges', '/wallet'];
@@ -41,26 +43,26 @@ class _HomeShellState extends State<HomeShell> {
               setState(() => _currentIndex = index);
               context.go(_pages[index]);
             },
-            items: const [
+            items: [
               BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard_outlined),
-                activeIcon: Icon(Icons.dashboard),
-                label: 'Home',
+                icon: const Icon(Icons.dashboard_outlined),
+                activeIcon: const Icon(Icons.dashboard),
+                label: ref.tr('nav_home'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.bar_chart_outlined),
-                activeIcon: Icon(Icons.bar_chart),
-                label: 'Stats',
+                icon: const Icon(Icons.bar_chart_outlined),
+                activeIcon: const Icon(Icons.bar_chart),
+                label: ref.tr('nav_stats'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.emoji_events_outlined),
-                activeIcon: Icon(Icons.emoji_events),
-                label: 'Challenge',
+                icon: const Icon(Icons.emoji_events_outlined),
+                activeIcon: const Icon(Icons.emoji_events),
+                label: ref.tr('nav_challenge'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.account_balance_wallet_outlined),
-                activeIcon: Icon(Icons.account_balance_wallet),
-                label: 'Wallet',
+                icon: const Icon(Icons.account_balance_wallet_outlined),
+                activeIcon: const Icon(Icons.account_balance_wallet),
+                label: ref.tr('nav_wallet'),
               ),
             ],
           ),

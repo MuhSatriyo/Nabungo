@@ -13,6 +13,7 @@ import '../../widgets/charts/bar_chart_widget.dart';
 import '../../widgets/gamification/level_badge.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/utils/extensions.dart';
+import '../../../core/localization/translations_extension.dart';
 import '../../../data/models/transaction_model.dart';
 import '../../../data/models/insight_model.dart';
 
@@ -105,10 +106,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Halo, ${auth.user?.name ?? 'User'}!',
-                    style: const TextStyle(color: Colors.white70, fontSize: 14),
-                  ),
+                    Text(
+                      ref.tr('hello_name', params: {'name': auth.user?.name ?? 'User'}),
+                      style: const TextStyle(color: Colors.white70, fontSize: 14),
+                    ),
                   const SizedBox(height: 4),
                   Text(
                     DateTime.now().fullDate,
@@ -143,11 +144,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Icon(Icons.trending_down, color: AppColors.danger, size: 18),
-                          SizedBox(width: 6),
-                          Text('Expense', style: TextStyle(
+                          const Icon(Icons.trending_down, color: AppColors.danger, size: 18),
+                          const SizedBox(width: 6),
+                          Text(ref.tr('expense'), style: const TextStyle(
                             color: Colors.white70, fontSize: 12,
                           )),
                         ],
@@ -173,11 +174,11 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          Icon(Icons.trending_up, color: AppColors.success, size: 18),
-                          SizedBox(width: 6),
-                          Text('Income', style: TextStyle(
+                          const Icon(Icons.trending_up, color: AppColors.success, size: 18),
+                          const SizedBox(width: 6),
+                          Text(ref.tr('income'), style: const TextStyle(
                             color: Colors.white70, fontSize: 12,
                           )),
                         ],
@@ -230,7 +231,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('Sisa Uang', style: theme.textTheme.bodyMedium),
+                  Text(ref.tr('remaining_balance'), style: theme.textTheme.bodyMedium),
                   const SizedBox(height: 4),
                   Text(
                     balance.rupiah,
@@ -324,8 +325,8 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Weekly Spending', style: theme.textTheme.titleMedium),
-                Text('This week', style: theme.textTheme.bodySmall),
+                Text(ref.tr('weekly_spending'), style: theme.textTheme.titleMedium),
+                Text(ref.tr('this_week'), style: theme.textTheme.bodySmall),
               ],
             ),
             const SizedBox(height: 16),
@@ -333,7 +334,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
               SizedBox(
                 height: 180,
                 child: Center(
-                  child: Text('No data this week', style: theme.textTheme.bodyMedium),
+                  child: Text(ref.tr('no_data_this_week'), style: theme.textTheme.bodyMedium),
                 ),
               )
             else
@@ -357,10 +358,10 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Recent Transactions', style: theme.textTheme.titleMedium),
+              Text(ref.tr('recent_transactions'), style: theme.textTheme.titleMedium),
               TextButton(
                 onPressed: () => context.go('/wallet'),
-                child: const Text('See All'),
+                child: Text(ref.tr('see_all')),
               ),
             ],
           ),
@@ -368,9 +369,9 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
           if (txState.isLoading)
             const ShimmerLoading(height: 300)
           else if (txState.transactions.isEmpty)
-            const EmptyState(
-              title: 'No transactions yet',
-              subtitle: 'Tap + to add your first transaction',
+            EmptyState(
+              title: ref.tr('no_transactions_yet'),
+              subtitle: ref.tr('tap_to_add'),
               icon: Icons.receipt_long_outlined,
             )
           else
@@ -406,7 +407,7 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          tx.note ?? tx.categoryName ?? 'Transaction',
+                          tx.note ?? tx.categoryName ?? ref.tr('transaction'),
                           style: theme.textTheme.titleMedium,
                         ),
                         const SizedBox(height: 2),

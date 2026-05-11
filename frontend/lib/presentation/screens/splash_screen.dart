@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../providers/auth_provider.dart';
 import '../providers/theme_provider.dart';
 import '../../core/constants/colors.dart';
+import '../../core/localization/translations_extension.dart';
 import '../../data/datasources/local/local_storage.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
@@ -122,7 +123,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       ),
                       const SizedBox(height: 24),
                       Text(
-                        'Nabungo',
+                        ref.tr('app_name'),
                         style: Theme.of(context).textTheme.displayLarge?.copyWith(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -131,7 +132,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        'AI Financial Companion',
+                        ref.tr('ai_financial_companion'),
                         style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                           color: Colors.white70,
                           letterSpacing: 1,

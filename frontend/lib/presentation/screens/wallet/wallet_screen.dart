@@ -8,6 +8,7 @@ import '../../widgets/common/empty_state.dart';
 import '../../widgets/common/shimmer_loading.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/utils/extensions.dart';
+import '../../../core/localization/translations_extension.dart';
 import '../../../data/models/transaction_model.dart';
 
 class WalletScreen extends ConsumerStatefulWidget {
@@ -72,7 +73,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Wallet', style: theme.textTheme.displayMedium),
+                    Text(ref.tr('wallet'), style: theme.textTheme.displayMedium),
                     const SizedBox(height: 16),
                     GlassCard(
                       padding: const EdgeInsets.all(20),
@@ -82,7 +83,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Total Balance', style: theme.textTheme.bodyMedium),
+                              Text(ref.tr('total_balance'), style: theme.textTheme.bodyMedium),
                               Container(
                                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                                 decoration: BoxDecoration(
@@ -124,7 +125,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('Income', style: theme.textTheme.bodySmall?.copyWith(fontSize: 11)),
+                                        Text(ref.tr('income'), style: theme.textTheme.bodySmall?.copyWith(fontSize: 11)),
                                         Text(
                                           (txState.analytics?.summary.totalIncome ?? 0).compactRupiah,
                                           style: const TextStyle(color: AppColors.success, fontWeight: FontWeight.w600, fontSize: 13),
@@ -149,7 +150,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text('Expense', style: theme.textTheme.bodySmall?.copyWith(fontSize: 11)),
+                                        Text(ref.tr('expense'), style: theme.textTheme.bodySmall?.copyWith(fontSize: 11)),
                                         Text(
                                           (txState.analytics?.summary.totalExpense ?? 0).compactRupiah,
                                           style: const TextStyle(color: AppColors.danger, fontWeight: FontWeight.w600, fontSize: 13),
@@ -173,9 +174,9 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
               delegate: _StickyTabDelegate(
                 TabBar(
                   controller: _tabController,
-                  tabs: const [
-                    Tab(text: 'Expenses'),
-                    Tab(text: 'Income'),
+                  tabs: [
+                    Tab(text: ref.tr('expenses_tab')),
+                    Tab(text: ref.tr('income_tab')),
                   ],
                   labelColor: theme.colorScheme.primary,
                   unselectedLabelColor: theme.textTheme.bodyMedium?.color,
@@ -202,9 +203,9 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
       return const TransactionShimmer();
     }
     if (transactions.isEmpty) {
-      return const EmptyState(
-        title: 'No transactions',
-        subtitle: 'Start tracking your finances',
+      return EmptyState(
+        title: ref.tr('no_transactions'),
+        subtitle: ref.tr('start_tracking'),
         icon: Icons.receipt_long_outlined,
       );
     }

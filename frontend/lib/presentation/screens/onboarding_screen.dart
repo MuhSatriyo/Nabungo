@@ -1,35 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import '../../core/localization/translations_extension.dart';
 
-class OnboardingScreen extends StatefulWidget {
+class OnboardingScreen extends ConsumerStatefulWidget {
   const OnboardingScreen({super.key});
 
   @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
+  ConsumerState<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenState extends State<OnboardingScreen> {
+class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
   final List<_OnboardingItem> _items = [
     _OnboardingItem(
       icon: Icons.account_balance_wallet_outlined,
-      title: 'Kelola Uang dengan Cerdas',
-      description: 'Catat setiap transaksi dengan cepat dan dapatkan insight finansial pribadi kamu.',
+      titleKey: 'onboarding_title_1',
+      descKey: 'onboarding_desc_1',
       color: const Color(0xFF2ED573),
     ),
     _OnboardingItem(
       icon: Icons.auto_graph_outlined,
-      title: 'AI Financial Insight',
-      description: 'Dapatkan analisis cerdas tentang pola pengeluaran dan saran hemat otomatis.',
+      titleKey: 'onboarding_title_2',
+      descKey: 'onboarding_desc_2',
       color: const Color(0xFF54A0FF),
     ),
     _OnboardingItem(
       icon: Icons.emoji_events_outlined,
-      title: 'Belajar sambil Nabung',
-      description: 'Kumpulkan XP, naikkan level, dan raih badge dengan kebiasaan finansial yang baik.',
+      titleKey: 'onboarding_title_3',
+      descKey: 'onboarding_desc_3',
       color: const Color(0xFFFFD700),
     ),
   ];
@@ -58,7 +60,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   )),
                   TextButton(
                     onPressed: () => context.go('/login'),
-                    child: Text('Skip', style: TextStyle(color: theme.colorScheme.primary)),
+                    child: Text(ref.tr('skip'), style: TextStyle(color: theme.colorScheme.primary)),
                   ),
                 ],
               ),
@@ -90,7 +92,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ).slideY(begin: 0.3),
                         const SizedBox(height: 48),
                         Text(
-                          item.title,
+                          ref.tr(item.titleKey),
                           style: theme.textTheme.displayMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -101,7 +103,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          item.description,
+                          ref.tr(item.descKey),
                           style: theme.textTheme.bodyLarge?.copyWith(
                             color: theme.textTheme.bodyMedium?.color,
                             height: 1.5,
@@ -156,8 +158,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         }
                       },
                       child: Text(_currentPage == _items.length - 1
-                          ? 'Mulai Sekarang'
-                          : 'Lanjutkan'),
+                          ? ref.tr('get_started')
+                          : ref.tr('next')),
                     ),
                   ),
                 ],
@@ -172,14 +174,14 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
 class _OnboardingItem {
   final IconData icon;
-  final String title;
-  final String description;
+  final String titleKey;
+  final String descKey;
   final Color color;
 
   _OnboardingItem({
     required this.icon,
-    required this.title,
-    required this.description,
+    required this.titleKey,
+    required this.descKey,
     required this.color,
   });
 }

@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/common/gradient_button.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/translations_extension.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -64,10 +65,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Text('Create\nAccount', style: theme.textTheme.displayLarge),
+                Text(ref.tr('create_account_title'), style: theme.textTheme.displayLarge),
                 const SizedBox(height: 8),
                 Text(
-                  'Start your financial journey',
+                  ref.tr('register_subtitle'),
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.textTheme.bodyMedium?.color,
                   ),
@@ -75,12 +76,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const SizedBox(height: 48),
                 TextFormField(
                   controller: _nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Full Name',
-                    prefixIcon: Icon(Icons.person_outline),
+                  decoration: InputDecoration(
+                    labelText: ref.tr('full_name'),
+                    prefixIcon: const Icon(Icons.person_outline),
                   ),
                   validator: (v) {
-                    if (v == null || v.isEmpty) return 'Name is required';
+                    if (v == null || v.isEmpty) return ref.tr('name_required');
                     return null;
                   },
                 ),
@@ -88,13 +89,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 TextFormField(
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: const InputDecoration(
-                    labelText: 'Email',
-                    prefixIcon: Icon(Icons.email_outlined),
+                  decoration: InputDecoration(
+                    labelText: ref.tr('email'),
+                    prefixIcon: const Icon(Icons.email_outlined),
                   ),
                   validator: (v) {
-                    if (v == null || v.isEmpty) return 'Email is required';
-                    if (!v.contains('@')) return 'Invalid email';
+                    if (v == null || v.isEmpty) return ref.tr('email_required');
+                    if (!v.contains('@')) return ref.tr('invalid_email');
                     return null;
                   },
                 ),
@@ -103,7 +104,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                   controller: _passwordController,
                   obscureText: _obscurePassword,
                   decoration: InputDecoration(
-                    labelText: 'Password',
+                    labelText: ref.tr('password'),
                     prefixIcon: const Icon(Icons.lock_outlined),
                     suffixIcon: IconButton(
                       icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
@@ -111,8 +112,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                   ),
                   validator: (v) {
-                    if (v == null || v.isEmpty) return 'Password is required';
-                    if (v.length < 6) return 'Min 6 characters';
+                    if (v == null || v.isEmpty) return ref.tr('password_required');
+                    if (v.length < 6) return ref.tr('min_6_chars');
                     return null;
                   },
                 ),
@@ -120,12 +121,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 TextFormField(
                   controller: _confirmPasswordController,
                   obscureText: true,
-                  decoration: const InputDecoration(
-                    labelText: 'Confirm Password',
-                    prefixIcon: Icon(Icons.lock_outlined),
+                  decoration: InputDecoration(
+                    labelText: ref.tr('confirm_password'),
+                    prefixIcon: const Icon(Icons.lock_outlined),
                   ),
                   validator: (v) {
-                    if (v != _passwordController.text) return 'Passwords do not match';
+                    if (v != _passwordController.text) return ref.tr('passwords_no_match');
                     return null;
                   },
                 ),
@@ -151,7 +152,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     ),
                   ),
                 GradientButton(
-                  label: 'Create Account',
+                  label: ref.tr('create_account'),
                   isLoading: authState.isLoading,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
@@ -167,11 +168,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('Already have an account?',
+                    Text(ref.tr('already_have_account'),
                       style: theme.textTheme.bodyMedium),
                     TextButton(
                       onPressed: () => context.go('/login'),
-                      child: const Text('Login'),
+                      child: Text(ref.tr('login_link')),
                     ),
                   ],
                 ),

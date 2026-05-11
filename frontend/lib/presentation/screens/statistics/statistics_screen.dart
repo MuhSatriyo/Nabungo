@@ -8,6 +8,7 @@ import '../../widgets/common/glass_card.dart';
 import '../../widgets/common/shimmer_loading.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/utils/extensions.dart';
+import '../../../core/localization/translations_extension.dart';
 
 class StatisticsScreen extends ConsumerStatefulWidget {
   const StatisticsScreen({super.key});
@@ -59,22 +60,25 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('Statistics', style: theme.textTheme.displayMedium),
-                      SegmentedButton<String>(
-                        segments: const [
-                          ButtonSegment(value: 'week', label: Text('Week')),
-                          ButtonSegment(value: 'month', label: Text('Month')),
-                          ButtonSegment(value: 'year', label: Text('Year')),
-                        ],
+                      Text(ref.tr('statistics'), style: theme.textTheme.displayMedium),
+                      FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: SegmentedButton<String>(
+                          segments: [
+                            ButtonSegment(value: 'week', label: Text(ref.tr('week'))),
+                            ButtonSegment(value: 'month', label: Text(ref.tr('month'))),
+                            ButtonSegment(value: 'year', label: Text(ref.tr('year'))),
+                          ],
                         selected: {_period},
                         onSelectionChanged: (v) {
                           setState(() => _period = v.first);
                           _loadAnalytics();
                         },
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
+              ),
                 if (analytics == null)
                   const DashboardShimmer()
                 else ...[
@@ -90,7 +94,7 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Expense', style: theme.textTheme.bodySmall),
+                                Text(ref.tr('expense'), style: theme.textTheme.bodySmall),
                                 const SizedBox(height: 8),
                                 Text(
                                   analytics.summary.totalExpense.rupiah,
@@ -111,7 +115,7 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Income', style: theme.textTheme.bodySmall),
+                                Text(ref.tr('income'), style: theme.textTheme.bodySmall),
                                 const SizedBox(height: 8),
                                 Text(
                                   analytics.summary.totalIncome.rupiah,
@@ -145,7 +149,7 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                             child: const Icon(Icons.receipt_long, color: AppColors.info, size: 24),
                           ),
                           const SizedBox(width: 12),
-                          Text('Total Transactions', style: theme.textTheme.bodyMedium),
+                          Text(ref.tr('total_transactions'), style: theme.textTheme.bodyMedium),
                           const Spacer(),
                           Text(
                             '${analytics.summary.transactionCount}',
@@ -165,12 +169,12 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Daily Spending', style: theme.textTheme.titleMedium),
+                          Text(ref.tr('daily_spending'), style: theme.textTheme.titleMedium),
                           const SizedBox(height: 16),
                           if (analytics.dailyTotals.isEmpty)
                             SizedBox(
                               height: 180,
-                              child: Center(child: Text('No data', style: theme.textTheme.bodyMedium)),
+                              child: Center(child: Text(ref.tr('no_data'), style: theme.textTheme.bodyMedium)),
                             )
                           else
                             SpendingBarChart(
@@ -190,12 +194,12 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('Spending by Category', style: theme.textTheme.titleMedium),
+                          Text(ref.tr('spending_by_category'), style: theme.textTheme.titleMedium),
                           const SizedBox(height: 16),
                           if (analytics.categories.isEmpty)
                             SizedBox(
                               height: 200,
-                              child: Center(child: Text('No data', style: theme.textTheme.bodyMedium)),
+                              child: Center(child: Text(ref.tr('no_data'), style: theme.textTheme.bodyMedium)),
                             )
                           else
                             CategoryPieChart(categories: analytics.categories),

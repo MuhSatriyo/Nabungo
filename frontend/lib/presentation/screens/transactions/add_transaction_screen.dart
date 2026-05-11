@@ -5,6 +5,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import '../../providers/transaction_provider.dart';
 import '../../widgets/common/gradient_button.dart';
 import '../../../core/constants/colors.dart';
+import '../../../core/localization/translations_extension.dart';
 
 class AddTransactionScreen extends ConsumerStatefulWidget {
   const AddTransactionScreen({super.key});
@@ -54,13 +55,13 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
   Future<void> _submit() async {
     if (_amount <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Masukkan nominal')),
+        SnackBar(content: Text(ref.tr('enter_amount'))),
       );
       return;
     }
     if (_categoryId == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Pilih kategori')),
+        SnackBar(content: Text(ref.tr('select_category'))),
       );
       return;
     }
@@ -78,7 +79,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
         context.pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(_type == 'expense' ? 'Pengeluaran dicatat!' : 'Pemasukan dicatat!'),
+            content: Text(_type == 'expense' ? ref.tr('expense_recorded') : ref.tr('income_recorded')),
             backgroundColor: AppColors.success,
           ),
         );
@@ -88,7 +89,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Gagal: ${e.toString().replaceAll('Exception: ', '')}'),
+            content: Text('${ref.tr('failed')}: ${e.toString().replaceAll('Exception: ', '')}'),
             backgroundColor: AppColors.danger,
           ),
         );
@@ -103,7 +104,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Transaction'),
+        title: Text(ref.tr('add_transaction')),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: () => context.pop(),
@@ -132,12 +133,12 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                             color: _type == 'expense' ? AppColors.danger : Colors.transparent,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.trending_down, color: Colors.white, size: 18),
-                              SizedBox(width: 6),
-                              Text('Expense', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                              const Icon(Icons.trending_down, color: Colors.white, size: 18),
+                              const SizedBox(width: 6),
+                              Text(ref.tr('expense'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -152,12 +153,12 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                             color: _type == 'income' ? AppColors.success : Colors.transparent,
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          child: const Row(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Icon(Icons.trending_up, color: Colors.white, size: 18),
-                              SizedBox(width: 6),
-                              Text('Income', style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
+                              const Icon(Icons.trending_up, color: Colors.white, size: 18),
+                              const SizedBox(width: 6),
+                              Text(ref.tr('income'), style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600)),
                             ],
                           ),
                         ),
@@ -211,7 +212,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Align(
                 alignment: Alignment.centerLeft,
-                child: Text('Category', style: theme.textTheme.titleMedium),
+                child: Text(ref.tr('category'), style: theme.textTheme.titleMedium),
               ),
             ),
             const SizedBox(height: 12),
@@ -263,9 +264,9 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TextField(
                 controller: _noteController,
-                decoration: const InputDecoration(
-                  hintText: 'Add note (optional)',
-                  prefixIcon: Icon(Icons.edit_note),
+                decoration: InputDecoration(
+                  hintText: ref.tr('add_note_hint'),
+                  prefixIcon: const Icon(Icons.edit_note),
                 ),
                 maxLines: 2,
               ),
@@ -274,8 +275,8 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
             // Submit button
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: GradientButton(
-                label: _type == 'expense' ? 'Add Expense' : 'Add Income',
+              child:               GradientButton(
+                label: _type == 'expense' ? ref.tr('add_expense') : ref.tr('add_income'),
                 isLoading: _isLoading,
                 icon: _type == 'expense' ? Icons.trending_down : Icons.trending_up,
                 colors: _type == 'expense'
