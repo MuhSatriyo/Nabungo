@@ -18,7 +18,7 @@ const securityHeaders = helmet({
 const corsOptions = cors({
   origin: process.env.NODE_ENV === 'production'
     ? (process.env.CORS_ORIGIN || 'https://nabungo.app').split(',').map(s => s.trim())
-    : '*',
+    : true,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],

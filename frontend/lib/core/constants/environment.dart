@@ -1,27 +1,33 @@
-/// Flutter environment configuration
-/// Update these values based on your deployment environment
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 class Environment {
   static const String appName = 'Nabungo';
   static const String appVersion = '1.0.0';
 
-  /// API Base URL - change this to your production API URL
-  /// For local development use: http://localhost:3000/api
-  /// For production use: https://api.nabungo.app/api
-  static const String apiBaseUrl = String.fromEnvironment(
-    'API_BASE_URL',
-    defaultValue: 'http://localhost:3000/api',
-  );
+  /// API Base URL - override at build time:
+  ///   flutter run --dart-define=API_BASE_URL=http://192.168.1.x:3000/api
+  ///   flutter build apk --dart-define=API_BASE_URL=http://192.168.1.x:3000/api
+  static String get apiBaseUrl {
+    const compiledUrl = String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: '',
+    );
+    if (compiledUrl.isNotEmpty) return compiledUrl;
+    return _defaultUrl;
+  }
 
-  /// Flag to determine if running in production mode
-  static const bool isProduction = bool.fromEnvironment(
+  static String get _defaultUrl {
+    if (kIsWeb) return 'http://localhost:3000/api';
+    return 'http://10.0.2.2:3000/api';
+  }
+
+  static bool get isProduction => bool.fromEnvironment(
     'PRODUCTION',
     defaultValue: false,
   );
 
-  /// Flag to determine if running in debug mode
   static bool get isDebug => !isProduction;
 
-  /// App flavor
   static const String flavor = String.fromEnvironment(
     'FLAVOR',
     defaultValue: 'production',
