@@ -57,28 +57,29 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(ref.tr('statistics'), style: theme.textTheme.displayMedium),
-                      FittedBox(
-                        fit: BoxFit.scaleDown,
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
                         child: SegmentedButton<String>(
                           segments: [
                             ButtonSegment(value: 'week', label: Text(ref.tr('week'))),
                             ButtonSegment(value: 'month', label: Text(ref.tr('month'))),
                             ButtonSegment(value: 'year', label: Text(ref.tr('year'))),
                           ],
-                        selected: {_period},
-                        onSelectionChanged: (v) {
-                          setState(() => _period = v.first);
-                          _loadAnalytics();
-                        },
+                          selected: {_period},
+                          onSelectionChanged: (v) {
+                            setState(() => _period = v.first);
+                            _loadAnalytics();
+                          },
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
                 if (analytics == null)
                   const DashboardShimmer()
                 else ...[
