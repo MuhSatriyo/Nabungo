@@ -16,15 +16,29 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   int _currentIndex = 0;
 
   final _pages = ['/dashboard', '/statistics', '/challenges', '/wallet'];
+  final _navIcons = [
+    Icons.dashboard_outlined,
+    Icons.bar_chart_outlined,
+    Icons.emoji_events_outlined,
+    Icons.account_balance_wallet_outlined,
+  ];
+  final _navActiveIcons = [
+    Icons.dashboard,
+    Icons.bar_chart,
+    Icons.emoji_events,
+    Icons.account_balance_wallet,
+  ];
+  final _navLabels = ['nav_home', 'nav_stats', 'nav_challenge', 'nav_wallet'];
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       body: widget.child,
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
         decoration: BoxDecoration(
           color: isDark ? const Color(0xFF1C2333) : Colors.white,
           boxShadow: [
@@ -35,36 +49,48 @@ class _HomeShellState extends ConsumerState<HomeShell> {
             ),
           ],
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(20),
-          child: BottomNavigationBar(
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              setState(() => _currentIndex = index);
-              context.go(_pages[index]);
-            },
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.dashboard_outlined),
-                activeIcon: const Icon(Icons.dashboard),
-                label: ref.tr('nav_home'),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.bar_chart_outlined),
-                activeIcon: const Icon(Icons.bar_chart),
-                label: ref.tr('nav_stats'),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.emoji_events_outlined),
-                activeIcon: const Icon(Icons.emoji_events),
-                label: ref.tr('nav_challenge'),
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.account_balance_wallet_outlined),
-                activeIcon: const Icon(Icons.account_balance_wallet),
-                label: ref.tr('nav_wallet'),
-              ),
-            ],
+        child: SafeArea(
+          top: false,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(4, (i) {
+              final selected = _currentIndex == i;
+              return Expanded(
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () {
+                    setState(() => _currentIndex = i);
+                    context.go(_pages[i]);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          selected ? _navActiveIcons[i] : _navIcons[i],
+                          color: selected
+                              ? theme.colorScheme.primary
+                              : (isDark ? Colors.white38 : Colors.black38),
+                          size: 24,
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          ref.tr(_navLabels[i]),
+                          style: TextStyle(
+                            fontSize: 11,
+                            color: selected
+                                ? theme.colorScheme.primary
+                                : (isDark ? Colors.white38 : Colors.black38),
+                            fontWeight: selected ? FontWeight.w600 : FontWeight.normal,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            }),
           ),
         ),
       ),
