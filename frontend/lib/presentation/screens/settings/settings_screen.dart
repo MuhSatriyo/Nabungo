@@ -80,8 +80,8 @@ class SettingsScreen extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 8),
-                Align(
-                  alignment: Alignment.centerLeft,
+                SizedBox(
+                  width: double.infinity,
                   child: SegmentedButton<String>(
                     segments: [
                       ButtonSegment(value: 'id', label: Text(ref.tr('indonesian'))),
