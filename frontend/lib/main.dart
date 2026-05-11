@@ -46,10 +46,6 @@ class NabungoApp extends ConsumerWidget {
       themeMode: themeMode,
       locale: Locale(locale),
       supportedLocales: const [Locale('id'), Locale('en')],
-      localizationsDelegates: const [
-        DefaultMaterialLocalizations.delegate,
-        DefaultWidgetsLocalizations.delegate,
-      ],
       routerConfig: appRouter,
     );
   }
