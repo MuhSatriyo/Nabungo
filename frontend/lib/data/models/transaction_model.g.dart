@@ -10,34 +10,34 @@ _$TransactionModelImpl _$$TransactionModelImplFromJson(
         Map<String, dynamic> json) =>
     _$TransactionModelImpl(
       id: (json['id'] as num).toInt(),
-      userId: (json['userId'] as num).toInt(),
+      userId: (json['user_id'] as num).toInt(),
       type: json['type'] as String,
       amount: (json['amount'] as num).toDouble(),
-      categoryId: (json['categoryId'] as num).toInt(),
-      categoryName: json['categoryName'] as String?,
-      categoryIcon: json['categoryIcon'] as String?,
-      categoryColor: json['categoryColor'] as String?,
+      categoryId: (json['category_id'] as num).toInt(),
+      categoryName: json['category_name'] as String?,
+      categoryIcon: json['category_icon'] as String?,
+      categoryColor: json['category_color'] as String?,
       note: json['note'] as String?,
       date: DateTime.parse(json['date'] as String),
-      createdAt: json['createdAt'] == null
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
+          : DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$$TransactionModelImplToJson(
         _$TransactionModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'userId': instance.userId,
+      'user_id': instance.userId,
       'type': instance.type,
       'amount': instance.amount,
-      'categoryId': instance.categoryId,
-      'categoryName': instance.categoryName,
-      'categoryIcon': instance.categoryIcon,
-      'categoryColor': instance.categoryColor,
+      'category_id': instance.categoryId,
+      'category_name': instance.categoryName,
+      'category_icon': instance.categoryIcon,
+      'category_color': instance.categoryColor,
       'note': instance.note,
       'date': instance.date.toIso8601String(),
-      'createdAt': instance.createdAt?.toIso8601String(),
+      'created_at': instance.createdAt?.toIso8601String(),
     };
 
 _$CreateTransactionRequestImpl _$$CreateTransactionRequestImplFromJson(
@@ -45,7 +45,7 @@ _$CreateTransactionRequestImpl _$$CreateTransactionRequestImplFromJson(
     _$CreateTransactionRequestImpl(
       type: json['type'] as String,
       amount: (json['amount'] as num).toDouble(),
-      categoryId: (json['categoryId'] as num?)?.toInt(),
+      categoryId: (json['category_id'] as num?)?.toInt(),
       note: json['note'] as String?,
       date:
           json['date'] == null ? null : DateTime.parse(json['date'] as String),
@@ -56,7 +56,7 @@ Map<String, dynamic> _$$CreateTransactionRequestImplToJson(
     <String, dynamic>{
       'type': instance.type,
       'amount': instance.amount,
-      'categoryId': instance.categoryId,
+      'category_id': instance.categoryId,
       'note': instance.note,
       'date': instance.date?.toIso8601String(),
     };
@@ -86,11 +86,11 @@ _$AnalyticsDataImpl _$$AnalyticsDataImplFromJson(Map<String, dynamic> json) =>
               ?.map((e) => CategorySummary.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      weeklySpending: (json['weeklySpending'] as List<dynamic>?)
+      weeklySpending: (json['weekly_spending'] as List<dynamic>?)
               ?.map((e) => WeeklySpending.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      dailyTotals: (json['dailyTotals'] as List<dynamic>?)
+      dailyTotals: (json['daily_totals'] as List<dynamic>?)
               ?.map((e) => DailyTotal.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
@@ -100,22 +100,22 @@ Map<String, dynamic> _$$AnalyticsDataImplToJson(_$AnalyticsDataImpl instance) =>
     <String, dynamic>{
       'summary': instance.summary,
       'categories': instance.categories,
-      'weeklySpending': instance.weeklySpending,
-      'dailyTotals': instance.dailyTotals,
+      'weekly_spending': instance.weeklySpending,
+      'daily_totals': instance.dailyTotals,
     };
 
 _$SummaryDataImpl _$$SummaryDataImplFromJson(Map<String, dynamic> json) =>
     _$SummaryDataImpl(
-      totalExpense: (json['totalExpense'] as num?)?.toDouble() ?? 0,
-      totalIncome: (json['totalIncome'] as num?)?.toDouble() ?? 0,
-      transactionCount: (json['transactionCount'] as num?)?.toInt() ?? 0,
+      totalExpense: (json['total_expense'] as num?)?.toDouble() ?? 0,
+      totalIncome: (json['total_income'] as num?)?.toDouble() ?? 0,
+      transactionCount: (json['transaction_count'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$$SummaryDataImplToJson(_$SummaryDataImpl instance) =>
     <String, dynamic>{
-      'totalExpense': instance.totalExpense,
-      'totalIncome': instance.totalIncome,
-      'transactionCount': instance.transactionCount,
+      'total_expense': instance.totalExpense,
+      'total_income': instance.totalIncome,
+      'transaction_count': instance.transactionCount,
     };
 
 _$CategorySummaryImpl _$$CategorySummaryImplFromJson(
@@ -142,14 +142,14 @@ Map<String, dynamic> _$$CategorySummaryImplToJson(
 
 _$WeeklySpendingImpl _$$WeeklySpendingImplFromJson(Map<String, dynamic> json) =>
     _$WeeklySpendingImpl(
-      weekNumber: (json['weekNumber'] as num).toDouble(),
+      weekNumber: (json['week_number'] as num).toDouble(),
       total: (json['total'] as num).toDouble(),
     );
 
 Map<String, dynamic> _$$WeeklySpendingImplToJson(
         _$WeeklySpendingImpl instance) =>
     <String, dynamic>{
-      'weekNumber': instance.weekNumber,
+      'week_number': instance.weekNumber,
       'total': instance.total,
     };
 

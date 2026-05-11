@@ -21,11 +21,15 @@ BudgetModel _$BudgetModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BudgetModel {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
   int get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_id')
   int get categoryId => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   DateTime get month => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_name')
   String? get categoryName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_icon')
   String? get categoryIcon => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -42,12 +46,12 @@ abstract class $BudgetModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      int userId,
-      int categoryId,
+      @JsonKey(name: 'user_id') int userId,
+      @JsonKey(name: 'category_id') int categoryId,
       double amount,
       DateTime month,
-      String? categoryName,
-      String? categoryIcon});
+      @JsonKey(name: 'category_name') String? categoryName,
+      @JsonKey(name: 'category_icon') String? categoryIcon});
 }
 
 /// @nodoc
@@ -114,12 +118,12 @@ abstract class _$$BudgetModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      int userId,
-      int categoryId,
+      @JsonKey(name: 'user_id') int userId,
+      @JsonKey(name: 'category_id') int categoryId,
       double amount,
       DateTime month,
-      String? categoryName,
-      String? categoryIcon});
+      @JsonKey(name: 'category_name') String? categoryName,
+      @JsonKey(name: 'category_icon') String? categoryIcon});
 }
 
 /// @nodoc
@@ -179,12 +183,12 @@ class __$$BudgetModelImplCopyWithImpl<$Res>
 class _$BudgetModelImpl implements _BudgetModel {
   const _$BudgetModelImpl(
       {required this.id,
-      required this.userId,
-      required this.categoryId,
+      @JsonKey(name: 'user_id') required this.userId,
+      @JsonKey(name: 'category_id') required this.categoryId,
       required this.amount,
       required this.month,
-      this.categoryName,
-      this.categoryIcon});
+      @JsonKey(name: 'category_name') this.categoryName,
+      @JsonKey(name: 'category_icon') this.categoryIcon});
 
   factory _$BudgetModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$BudgetModelImplFromJson(json);
@@ -192,16 +196,20 @@ class _$BudgetModelImpl implements _BudgetModel {
   @override
   final int id;
   @override
+  @JsonKey(name: 'user_id')
   final int userId;
   @override
+  @JsonKey(name: 'category_id')
   final int categoryId;
   @override
   final double amount;
   @override
   final DateTime month;
   @override
+  @JsonKey(name: 'category_name')
   final String? categoryName;
   @override
+  @JsonKey(name: 'category_icon')
   final String? categoryIcon;
 
   @override
@@ -247,13 +255,14 @@ class _$BudgetModelImpl implements _BudgetModel {
 
 abstract class _BudgetModel implements BudgetModel {
   const factory _BudgetModel(
-      {required final int id,
-      required final int userId,
-      required final int categoryId,
-      required final double amount,
-      required final DateTime month,
-      final String? categoryName,
-      final String? categoryIcon}) = _$BudgetModelImpl;
+          {required final int id,
+          @JsonKey(name: 'user_id') required final int userId,
+          @JsonKey(name: 'category_id') required final int categoryId,
+          required final double amount,
+          required final DateTime month,
+          @JsonKey(name: 'category_name') final String? categoryName,
+          @JsonKey(name: 'category_icon') final String? categoryIcon}) =
+      _$BudgetModelImpl;
 
   factory _BudgetModel.fromJson(Map<String, dynamic> json) =
       _$BudgetModelImpl.fromJson;
@@ -261,16 +270,20 @@ abstract class _BudgetModel implements BudgetModel {
   @override
   int get id;
   @override
+  @JsonKey(name: 'user_id')
   int get userId;
   @override
+  @JsonKey(name: 'category_id')
   int get categoryId;
   @override
   double get amount;
   @override
   DateTime get month;
   @override
+  @JsonKey(name: 'category_name')
   String? get categoryName;
   @override
+  @JsonKey(name: 'category_icon')
   String? get categoryIcon;
   @override
   @JsonKey(ignore: true)
@@ -285,10 +298,15 @@ BudgetProgress _$BudgetProgressFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BudgetProgress {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'budget_amount')
   double get budgetAmount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_id')
   int get categoryId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_name')
   String get categoryName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_icon')
   String get categoryIcon => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_color')
   String get categoryColor => throw _privateConstructorUsedError;
   double get spent => throw _privateConstructorUsedError;
 
@@ -306,11 +324,11 @@ abstract class $BudgetProgressCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      double budgetAmount,
-      int categoryId,
-      String categoryName,
-      String categoryIcon,
-      String categoryColor,
+      @JsonKey(name: 'budget_amount') double budgetAmount,
+      @JsonKey(name: 'category_id') int categoryId,
+      @JsonKey(name: 'category_name') String categoryName,
+      @JsonKey(name: 'category_icon') String categoryIcon,
+      @JsonKey(name: 'category_color') String categoryColor,
       double spent});
 }
 
@@ -378,11 +396,11 @@ abstract class _$$BudgetProgressImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      double budgetAmount,
-      int categoryId,
-      String categoryName,
-      String categoryIcon,
-      String categoryColor,
+      @JsonKey(name: 'budget_amount') double budgetAmount,
+      @JsonKey(name: 'category_id') int categoryId,
+      @JsonKey(name: 'category_name') String categoryName,
+      @JsonKey(name: 'category_icon') String categoryIcon,
+      @JsonKey(name: 'category_color') String categoryColor,
       double spent});
 }
 
@@ -443,11 +461,11 @@ class __$$BudgetProgressImplCopyWithImpl<$Res>
 class _$BudgetProgressImpl implements _BudgetProgress {
   const _$BudgetProgressImpl(
       {required this.id,
-      required this.budgetAmount,
-      required this.categoryId,
-      required this.categoryName,
-      required this.categoryIcon,
-      required this.categoryColor,
+      @JsonKey(name: 'budget_amount') required this.budgetAmount,
+      @JsonKey(name: 'category_id') required this.categoryId,
+      @JsonKey(name: 'category_name') required this.categoryName,
+      @JsonKey(name: 'category_icon') required this.categoryIcon,
+      @JsonKey(name: 'category_color') required this.categoryColor,
       required this.spent});
 
   factory _$BudgetProgressImpl.fromJson(Map<String, dynamic> json) =>
@@ -456,14 +474,19 @@ class _$BudgetProgressImpl implements _BudgetProgress {
   @override
   final int id;
   @override
+  @JsonKey(name: 'budget_amount')
   final double budgetAmount;
   @override
+  @JsonKey(name: 'category_id')
   final int categoryId;
   @override
+  @JsonKey(name: 'category_name')
   final String categoryName;
   @override
+  @JsonKey(name: 'category_icon')
   final String categoryIcon;
   @override
+  @JsonKey(name: 'category_color')
   final String categoryColor;
   @override
   final double spent;
@@ -515,11 +538,11 @@ class _$BudgetProgressImpl implements _BudgetProgress {
 abstract class _BudgetProgress implements BudgetProgress {
   const factory _BudgetProgress(
       {required final int id,
-      required final double budgetAmount,
-      required final int categoryId,
-      required final String categoryName,
-      required final String categoryIcon,
-      required final String categoryColor,
+      @JsonKey(name: 'budget_amount') required final double budgetAmount,
+      @JsonKey(name: 'category_id') required final int categoryId,
+      @JsonKey(name: 'category_name') required final String categoryName,
+      @JsonKey(name: 'category_icon') required final String categoryIcon,
+      @JsonKey(name: 'category_color') required final String categoryColor,
       required final double spent}) = _$BudgetProgressImpl;
 
   factory _BudgetProgress.fromJson(Map<String, dynamic> json) =
@@ -528,14 +551,19 @@ abstract class _BudgetProgress implements BudgetProgress {
   @override
   int get id;
   @override
+  @JsonKey(name: 'budget_amount')
   double get budgetAmount;
   @override
+  @JsonKey(name: 'category_id')
   int get categoryId;
   @override
+  @JsonKey(name: 'category_name')
   String get categoryName;
   @override
+  @JsonKey(name: 'category_icon')
   String get categoryIcon;
   @override
+  @JsonKey(name: 'category_color')
   String get categoryColor;
   @override
   double get spent;
@@ -746,6 +774,7 @@ CreateBudgetRequest _$CreateBudgetRequestFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreateBudgetRequest {
+  @JsonKey(name: 'category_id')
   int get categoryId => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   DateTime? get month => throw _privateConstructorUsedError;
@@ -762,7 +791,10 @@ abstract class $CreateBudgetRequestCopyWith<$Res> {
           CreateBudgetRequest value, $Res Function(CreateBudgetRequest) then) =
       _$CreateBudgetRequestCopyWithImpl<$Res, CreateBudgetRequest>;
   @useResult
-  $Res call({int categoryId, double amount, DateTime? month});
+  $Res call(
+      {@JsonKey(name: 'category_id') int categoryId,
+      double amount,
+      DateTime? month});
 }
 
 /// @nodoc
@@ -807,7 +839,10 @@ abstract class _$$CreateBudgetRequestImplCopyWith<$Res>
       __$$CreateBudgetRequestImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int categoryId, double amount, DateTime? month});
+  $Res call(
+      {@JsonKey(name: 'category_id') int categoryId,
+      double amount,
+      DateTime? month});
 }
 
 /// @nodoc
@@ -846,12 +881,15 @@ class __$$CreateBudgetRequestImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateBudgetRequestImpl implements _CreateBudgetRequest {
   const _$CreateBudgetRequestImpl(
-      {required this.categoryId, required this.amount, this.month});
+      {@JsonKey(name: 'category_id') required this.categoryId,
+      required this.amount,
+      this.month});
 
   factory _$CreateBudgetRequestImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateBudgetRequestImplFromJson(json);
 
   @override
+  @JsonKey(name: 'category_id')
   final int categoryId;
   @override
   final double amount;
@@ -895,7 +933,7 @@ class _$CreateBudgetRequestImpl implements _CreateBudgetRequest {
 
 abstract class _CreateBudgetRequest implements CreateBudgetRequest {
   const factory _CreateBudgetRequest(
-      {required final int categoryId,
+      {@JsonKey(name: 'category_id') required final int categoryId,
       required final double amount,
       final DateTime? month}) = _$CreateBudgetRequestImpl;
 
@@ -903,6 +941,7 @@ abstract class _CreateBudgetRequest implements CreateBudgetRequest {
       _$CreateBudgetRequestImpl.fromJson;
 
   @override
+  @JsonKey(name: 'category_id')
   int get categoryId;
   @override
   double get amount;

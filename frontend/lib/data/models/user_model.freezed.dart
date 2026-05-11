@@ -23,9 +23,11 @@ mixin _$UserModel {
   int get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avatar_url')
   String? get avatarUrl => throw _privateConstructorUsedError;
   int get xp => throw _privateConstructorUsedError;
   int get level => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,10 +45,10 @@ abstract class $UserModelCopyWith<$Res> {
       {int id,
       String name,
       String email,
-      String? avatarUrl,
+      @JsonKey(name: 'avatar_url') String? avatarUrl,
       int xp,
       int level,
-      DateTime? createdAt});
+      @JsonKey(name: 'created_at') DateTime? createdAt});
 }
 
 /// @nodoc
@@ -115,10 +117,10 @@ abstract class _$$UserModelImplCopyWith<$Res>
       {int id,
       String name,
       String email,
-      String? avatarUrl,
+      @JsonKey(name: 'avatar_url') String? avatarUrl,
       int xp,
       int level,
-      DateTime? createdAt});
+      @JsonKey(name: 'created_at') DateTime? createdAt});
 }
 
 /// @nodoc
@@ -180,10 +182,10 @@ class _$UserModelImpl implements _UserModel {
       {required this.id,
       required this.name,
       required this.email,
-      this.avatarUrl,
+      @JsonKey(name: 'avatar_url') this.avatarUrl,
       this.xp = 0,
       this.level = 1,
-      this.createdAt});
+      @JsonKey(name: 'created_at') this.createdAt});
 
   factory _$UserModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserModelImplFromJson(json);
@@ -195,6 +197,7 @@ class _$UserModelImpl implements _UserModel {
   @override
   final String email;
   @override
+  @JsonKey(name: 'avatar_url')
   final String? avatarUrl;
   @override
   @JsonKey()
@@ -203,6 +206,7 @@ class _$UserModelImpl implements _UserModel {
   @JsonKey()
   final int level;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
 
   @override
@@ -247,13 +251,14 @@ class _$UserModelImpl implements _UserModel {
 
 abstract class _UserModel implements UserModel {
   const factory _UserModel(
-      {required final int id,
-      required final String name,
-      required final String email,
-      final String? avatarUrl,
-      final int xp,
-      final int level,
-      final DateTime? createdAt}) = _$UserModelImpl;
+          {required final int id,
+          required final String name,
+          required final String email,
+          @JsonKey(name: 'avatar_url') final String? avatarUrl,
+          final int xp,
+          final int level,
+          @JsonKey(name: 'created_at') final DateTime? createdAt}) =
+      _$UserModelImpl;
 
   factory _UserModel.fromJson(Map<String, dynamic> json) =
       _$UserModelImpl.fromJson;
@@ -265,12 +270,14 @@ abstract class _UserModel implements UserModel {
   @override
   String get email;
   @override
+  @JsonKey(name: 'avatar_url')
   String? get avatarUrl;
   @override
   int get xp;
   @override
   int get level;
   @override
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)

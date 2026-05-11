@@ -11,12 +11,12 @@ _$UserModelImpl _$$UserModelImplFromJson(Map<String, dynamic> json) =>
       id: (json['id'] as num).toInt(),
       name: json['name'] as String,
       email: json['email'] as String,
-      avatarUrl: json['avatarUrl'] as String?,
+      avatarUrl: json['avatar_url'] as String?,
       xp: (json['xp'] as num?)?.toInt() ?? 0,
       level: (json['level'] as num?)?.toInt() ?? 1,
-      createdAt: json['createdAt'] == null
+      createdAt: json['created_at'] == null
           ? null
-          : DateTime.parse(json['createdAt'] as String),
+          : DateTime.parse(json['created_at'] as String),
     );
 
 Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
@@ -24,10 +24,10 @@ Map<String, dynamic> _$$UserModelImplToJson(_$UserModelImpl instance) =>
       'id': instance.id,
       'name': instance.name,
       'email': instance.email,
-      'avatarUrl': instance.avatarUrl,
+      'avatar_url': instance.avatarUrl,
       'xp': instance.xp,
       'level': instance.level,
-      'createdAt': instance.createdAt?.toIso8601String(),
+      'created_at': instance.createdAt?.toIso8601String(),
     };
 
 _$AuthResponseImpl _$$AuthResponseImplFromJson(Map<String, dynamic> json) =>

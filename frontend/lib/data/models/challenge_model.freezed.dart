@@ -25,10 +25,15 @@ mixin _$ChallengeModel {
   String? get description => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
   String get difficulty => throw _privateConstructorUsedError;
+  @JsonKey(name: 'xp_reward')
   int get xpReward => throw _privateConstructorUsedError;
+  @JsonKey(name: 'days_required')
   int get daysRequired => throw _privateConstructorUsedError;
+  @JsonKey(name: 'requirement_type')
   String? get requirementType => throw _privateConstructorUsedError;
+  @JsonKey(name: 'requirement_value')
   String? get requirementValue => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_active')
   bool get isActive => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -49,11 +54,11 @@ abstract class $ChallengeModelCopyWith<$Res> {
       String? description,
       String? icon,
       String difficulty,
-      int xpReward,
-      int daysRequired,
-      String? requirementType,
-      String? requirementValue,
-      bool isActive});
+      @JsonKey(name: 'xp_reward') int xpReward,
+      @JsonKey(name: 'days_required') int daysRequired,
+      @JsonKey(name: 'requirement_type') String? requirementType,
+      @JsonKey(name: 'requirement_value') String? requirementValue,
+      @JsonKey(name: 'is_active') bool isActive});
 }
 
 /// @nodoc
@@ -139,11 +144,11 @@ abstract class _$$ChallengeModelImplCopyWith<$Res>
       String? description,
       String? icon,
       String difficulty,
-      int xpReward,
-      int daysRequired,
-      String? requirementType,
-      String? requirementValue,
-      bool isActive});
+      @JsonKey(name: 'xp_reward') int xpReward,
+      @JsonKey(name: 'days_required') int daysRequired,
+      @JsonKey(name: 'requirement_type') String? requirementType,
+      @JsonKey(name: 'requirement_value') String? requirementValue,
+      @JsonKey(name: 'is_active') bool isActive});
 }
 
 /// @nodoc
@@ -222,11 +227,11 @@ class _$ChallengeModelImpl implements _ChallengeModel {
       this.description,
       this.icon,
       required this.difficulty,
-      this.xpReward = 50,
-      this.daysRequired = 3,
-      this.requirementType,
-      this.requirementValue,
-      this.isActive = true});
+      @JsonKey(name: 'xp_reward') this.xpReward = 50,
+      @JsonKey(name: 'days_required') this.daysRequired = 3,
+      @JsonKey(name: 'requirement_type') this.requirementType,
+      @JsonKey(name: 'requirement_value') this.requirementValue,
+      @JsonKey(name: 'is_active') this.isActive = true});
 
   factory _$ChallengeModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ChallengeModelImplFromJson(json);
@@ -242,17 +247,19 @@ class _$ChallengeModelImpl implements _ChallengeModel {
   @override
   final String difficulty;
   @override
-  @JsonKey()
+  @JsonKey(name: 'xp_reward')
   final int xpReward;
   @override
-  @JsonKey()
+  @JsonKey(name: 'days_required')
   final int daysRequired;
   @override
+  @JsonKey(name: 'requirement_type')
   final String? requirementType;
   @override
+  @JsonKey(name: 'requirement_value')
   final String? requirementValue;
   @override
-  @JsonKey()
+  @JsonKey(name: 'is_active')
   final bool isActive;
 
   @override
@@ -321,11 +328,11 @@ abstract class _ChallengeModel implements ChallengeModel {
       final String? description,
       final String? icon,
       required final String difficulty,
-      final int xpReward,
-      final int daysRequired,
-      final String? requirementType,
-      final String? requirementValue,
-      final bool isActive}) = _$ChallengeModelImpl;
+      @JsonKey(name: 'xp_reward') final int xpReward,
+      @JsonKey(name: 'days_required') final int daysRequired,
+      @JsonKey(name: 'requirement_type') final String? requirementType,
+      @JsonKey(name: 'requirement_value') final String? requirementValue,
+      @JsonKey(name: 'is_active') final bool isActive}) = _$ChallengeModelImpl;
 
   factory _ChallengeModel.fromJson(Map<String, dynamic> json) =
       _$ChallengeModelImpl.fromJson;
@@ -341,14 +348,19 @@ abstract class _ChallengeModel implements ChallengeModel {
   @override
   String get difficulty;
   @override
+  @JsonKey(name: 'xp_reward')
   int get xpReward;
   @override
+  @JsonKey(name: 'days_required')
   int get daysRequired;
   @override
+  @JsonKey(name: 'requirement_type')
   String? get requirementType;
   @override
+  @JsonKey(name: 'requirement_value')
   String? get requirementValue;
   @override
+  @JsonKey(name: 'is_active')
   bool get isActive;
   @override
   @JsonKey(ignore: true)
@@ -363,17 +375,23 @@ UserChallenge _$UserChallengeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$UserChallenge {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
   int get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'challenge_id')
   int get challengeId => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
   int get progress => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get difficulty => throw _privateConstructorUsedError;
+  @JsonKey(name: 'xp_reward')
   int? get xpReward => throw _privateConstructorUsedError;
+  @JsonKey(name: 'days_required')
   int? get daysRequired => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
+  @JsonKey(name: 'started_at')
   DateTime? get startedAt => throw _privateConstructorUsedError;
+  @JsonKey(name: 'completed_at')
   DateTime? get completedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -390,18 +408,18 @@ abstract class $UserChallengeCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      int userId,
-      int challengeId,
+      @JsonKey(name: 'user_id') int userId,
+      @JsonKey(name: 'challenge_id') int challengeId,
       String status,
       int progress,
       String? title,
       String? description,
       String? difficulty,
-      int? xpReward,
-      int? daysRequired,
+      @JsonKey(name: 'xp_reward') int? xpReward,
+      @JsonKey(name: 'days_required') int? daysRequired,
       String? icon,
-      DateTime? startedAt,
-      DateTime? completedAt});
+      @JsonKey(name: 'started_at') DateTime? startedAt,
+      @JsonKey(name: 'completed_at') DateTime? completedAt});
 }
 
 /// @nodoc
@@ -498,18 +516,18 @@ abstract class _$$UserChallengeImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      int userId,
-      int challengeId,
+      @JsonKey(name: 'user_id') int userId,
+      @JsonKey(name: 'challenge_id') int challengeId,
       String status,
       int progress,
       String? title,
       String? description,
       String? difficulty,
-      int? xpReward,
-      int? daysRequired,
+      @JsonKey(name: 'xp_reward') int? xpReward,
+      @JsonKey(name: 'days_required') int? daysRequired,
       String? icon,
-      DateTime? startedAt,
-      DateTime? completedAt});
+      @JsonKey(name: 'started_at') DateTime? startedAt,
+      @JsonKey(name: 'completed_at') DateTime? completedAt});
 }
 
 /// @nodoc
@@ -599,18 +617,18 @@ class __$$UserChallengeImplCopyWithImpl<$Res>
 class _$UserChallengeImpl implements _UserChallenge {
   const _$UserChallengeImpl(
       {required this.id,
-      required this.userId,
-      required this.challengeId,
+      @JsonKey(name: 'user_id') required this.userId,
+      @JsonKey(name: 'challenge_id') required this.challengeId,
       required this.status,
       this.progress = 0,
       this.title,
       this.description,
       this.difficulty,
-      this.xpReward,
-      this.daysRequired,
+      @JsonKey(name: 'xp_reward') this.xpReward,
+      @JsonKey(name: 'days_required') this.daysRequired,
       this.icon,
-      this.startedAt,
-      this.completedAt});
+      @JsonKey(name: 'started_at') this.startedAt,
+      @JsonKey(name: 'completed_at') this.completedAt});
 
   factory _$UserChallengeImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserChallengeImplFromJson(json);
@@ -618,8 +636,10 @@ class _$UserChallengeImpl implements _UserChallenge {
   @override
   final int id;
   @override
+  @JsonKey(name: 'user_id')
   final int userId;
   @override
+  @JsonKey(name: 'challenge_id')
   final int challengeId;
   @override
   final String status;
@@ -633,14 +653,18 @@ class _$UserChallengeImpl implements _UserChallenge {
   @override
   final String? difficulty;
   @override
+  @JsonKey(name: 'xp_reward')
   final int? xpReward;
   @override
+  @JsonKey(name: 'days_required')
   final int? daysRequired;
   @override
   final String? icon;
   @override
+  @JsonKey(name: 'started_at')
   final DateTime? startedAt;
   @override
+  @JsonKey(name: 'completed_at')
   final DateTime? completedAt;
 
   @override
@@ -710,19 +734,20 @@ class _$UserChallengeImpl implements _UserChallenge {
 
 abstract class _UserChallenge implements UserChallenge {
   const factory _UserChallenge(
-      {required final int id,
-      required final int userId,
-      required final int challengeId,
-      required final String status,
-      final int progress,
-      final String? title,
-      final String? description,
-      final String? difficulty,
-      final int? xpReward,
-      final int? daysRequired,
-      final String? icon,
-      final DateTime? startedAt,
-      final DateTime? completedAt}) = _$UserChallengeImpl;
+          {required final int id,
+          @JsonKey(name: 'user_id') required final int userId,
+          @JsonKey(name: 'challenge_id') required final int challengeId,
+          required final String status,
+          final int progress,
+          final String? title,
+          final String? description,
+          final String? difficulty,
+          @JsonKey(name: 'xp_reward') final int? xpReward,
+          @JsonKey(name: 'days_required') final int? daysRequired,
+          final String? icon,
+          @JsonKey(name: 'started_at') final DateTime? startedAt,
+          @JsonKey(name: 'completed_at') final DateTime? completedAt}) =
+      _$UserChallengeImpl;
 
   factory _UserChallenge.fromJson(Map<String, dynamic> json) =
       _$UserChallengeImpl.fromJson;
@@ -730,8 +755,10 @@ abstract class _UserChallenge implements UserChallenge {
   @override
   int get id;
   @override
+  @JsonKey(name: 'user_id')
   int get userId;
   @override
+  @JsonKey(name: 'challenge_id')
   int get challengeId;
   @override
   String get status;
@@ -744,14 +771,18 @@ abstract class _UserChallenge implements UserChallenge {
   @override
   String? get difficulty;
   @override
+  @JsonKey(name: 'xp_reward')
   int? get xpReward;
   @override
+  @JsonKey(name: 'days_required')
   int? get daysRequired;
   @override
   String? get icon;
   @override
+  @JsonKey(name: 'started_at')
   DateTime? get startedAt;
   @override
+  @JsonKey(name: 'completed_at')
   DateTime? get completedAt;
   @override
   @JsonKey(ignore: true)
@@ -770,6 +801,7 @@ mixin _$BadgeModel {
   String? get description => throw _privateConstructorUsedError;
   String? get icon => throw _privateConstructorUsedError;
   String get code => throw _privateConstructorUsedError;
+  @JsonKey(name: 'earned_at')
   DateTime? get earnedAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -790,7 +822,7 @@ abstract class $BadgeModelCopyWith<$Res> {
       String? description,
       String? icon,
       String code,
-      DateTime? earnedAt});
+      @JsonKey(name: 'earned_at') DateTime? earnedAt});
 }
 
 /// @nodoc
@@ -856,7 +888,7 @@ abstract class _$$BadgeModelImplCopyWith<$Res>
       String? description,
       String? icon,
       String code,
-      DateTime? earnedAt});
+      @JsonKey(name: 'earned_at') DateTime? earnedAt});
 }
 
 /// @nodoc
@@ -915,7 +947,7 @@ class _$BadgeModelImpl implements _BadgeModel {
       this.description,
       this.icon,
       required this.code,
-      this.earnedAt});
+      @JsonKey(name: 'earned_at') this.earnedAt});
 
   factory _$BadgeModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$BadgeModelImplFromJson(json);
@@ -931,6 +963,7 @@ class _$BadgeModelImpl implements _BadgeModel {
   @override
   final String code;
   @override
+  @JsonKey(name: 'earned_at')
   final DateTime? earnedAt;
 
   @override
@@ -979,7 +1012,7 @@ abstract class _BadgeModel implements BadgeModel {
       final String? description,
       final String? icon,
       required final String code,
-      final DateTime? earnedAt}) = _$BadgeModelImpl;
+      @JsonKey(name: 'earned_at') final DateTime? earnedAt}) = _$BadgeModelImpl;
 
   factory _BadgeModel.fromJson(Map<String, dynamic> json) =
       _$BadgeModelImpl.fromJson;
@@ -995,6 +1028,7 @@ abstract class _BadgeModel implements BadgeModel {
   @override
   String get code;
   @override
+  @JsonKey(name: 'earned_at')
   DateTime? get earnedAt;
   @override
   @JsonKey(ignore: true)
@@ -1295,8 +1329,11 @@ StreakData _$StreakDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$StreakData {
+  @JsonKey(name: 'current_streak')
   int get currentStreak => throw _privateConstructorUsedError;
+  @JsonKey(name: 'longest_streak')
   int get longestStreak => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_activity_date')
   DateTime? get lastActivityDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1311,7 +1348,10 @@ abstract class $StreakDataCopyWith<$Res> {
           StreakData value, $Res Function(StreakData) then) =
       _$StreakDataCopyWithImpl<$Res, StreakData>;
   @useResult
-  $Res call({int currentStreak, int longestStreak, DateTime? lastActivityDate});
+  $Res call(
+      {@JsonKey(name: 'current_streak') int currentStreak,
+      @JsonKey(name: 'longest_streak') int longestStreak,
+      @JsonKey(name: 'last_activity_date') DateTime? lastActivityDate});
 }
 
 /// @nodoc
@@ -1356,7 +1396,10 @@ abstract class _$$StreakDataImplCopyWith<$Res>
       __$$StreakDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int currentStreak, int longestStreak, DateTime? lastActivityDate});
+  $Res call(
+      {@JsonKey(name: 'current_streak') int currentStreak,
+      @JsonKey(name: 'longest_streak') int longestStreak,
+      @JsonKey(name: 'last_activity_date') DateTime? lastActivityDate});
 }
 
 /// @nodoc
@@ -1395,18 +1438,21 @@ class __$$StreakDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StreakDataImpl implements _StreakData {
   const _$StreakDataImpl(
-      {this.currentStreak = 0, this.longestStreak = 0, this.lastActivityDate});
+      {@JsonKey(name: 'current_streak') this.currentStreak = 0,
+      @JsonKey(name: 'longest_streak') this.longestStreak = 0,
+      @JsonKey(name: 'last_activity_date') this.lastActivityDate});
 
   factory _$StreakDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$StreakDataImplFromJson(json);
 
   @override
-  @JsonKey()
+  @JsonKey(name: 'current_streak')
   final int currentStreak;
   @override
-  @JsonKey()
+  @JsonKey(name: 'longest_streak')
   final int longestStreak;
   @override
+  @JsonKey(name: 'last_activity_date')
   final DateTime? lastActivityDate;
 
   @override
@@ -1448,18 +1494,22 @@ class _$StreakDataImpl implements _StreakData {
 
 abstract class _StreakData implements StreakData {
   const factory _StreakData(
-      {final int currentStreak,
-      final int longestStreak,
+      {@JsonKey(name: 'current_streak') final int currentStreak,
+      @JsonKey(name: 'longest_streak') final int longestStreak,
+      @JsonKey(name: 'last_activity_date')
       final DateTime? lastActivityDate}) = _$StreakDataImpl;
 
   factory _StreakData.fromJson(Map<String, dynamic> json) =
       _$StreakDataImpl.fromJson;
 
   @override
+  @JsonKey(name: 'current_streak')
   int get currentStreak;
   @override
+  @JsonKey(name: 'longest_streak')
   int get longestStreak;
   @override
+  @JsonKey(name: 'last_activity_date')
   DateTime? get lastActivityDate;
   @override
   @JsonKey(ignore: true)

@@ -9,33 +9,33 @@ part of 'budget_model.dart';
 _$BudgetModelImpl _$$BudgetModelImplFromJson(Map<String, dynamic> json) =>
     _$BudgetModelImpl(
       id: (json['id'] as num).toInt(),
-      userId: (json['userId'] as num).toInt(),
-      categoryId: (json['categoryId'] as num).toInt(),
+      userId: (json['user_id'] as num).toInt(),
+      categoryId: (json['category_id'] as num).toInt(),
       amount: (json['amount'] as num).toDouble(),
       month: DateTime.parse(json['month'] as String),
-      categoryName: json['categoryName'] as String?,
-      categoryIcon: json['categoryIcon'] as String?,
+      categoryName: json['category_name'] as String?,
+      categoryIcon: json['category_icon'] as String?,
     );
 
 Map<String, dynamic> _$$BudgetModelImplToJson(_$BudgetModelImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'userId': instance.userId,
-      'categoryId': instance.categoryId,
+      'user_id': instance.userId,
+      'category_id': instance.categoryId,
       'amount': instance.amount,
       'month': instance.month.toIso8601String(),
-      'categoryName': instance.categoryName,
-      'categoryIcon': instance.categoryIcon,
+      'category_name': instance.categoryName,
+      'category_icon': instance.categoryIcon,
     };
 
 _$BudgetProgressImpl _$$BudgetProgressImplFromJson(Map<String, dynamic> json) =>
     _$BudgetProgressImpl(
       id: (json['id'] as num).toInt(),
-      budgetAmount: (json['budgetAmount'] as num).toDouble(),
-      categoryId: (json['categoryId'] as num).toInt(),
-      categoryName: json['categoryName'] as String,
-      categoryIcon: json['categoryIcon'] as String,
-      categoryColor: json['categoryColor'] as String,
+      budgetAmount: (json['budget_amount'] as num).toDouble(),
+      categoryId: (json['category_id'] as num).toInt(),
+      categoryName: json['category_name'] as String,
+      categoryIcon: json['category_icon'] as String,
+      categoryColor: json['category_color'] as String,
       spent: (json['spent'] as num).toDouble(),
     );
 
@@ -43,11 +43,11 @@ Map<String, dynamic> _$$BudgetProgressImplToJson(
         _$BudgetProgressImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'budgetAmount': instance.budgetAmount,
-      'categoryId': instance.categoryId,
-      'categoryName': instance.categoryName,
-      'categoryIcon': instance.categoryIcon,
-      'categoryColor': instance.categoryColor,
+      'budget_amount': instance.budgetAmount,
+      'category_id': instance.categoryId,
+      'category_name': instance.categoryName,
+      'category_icon': instance.categoryIcon,
+      'category_color': instance.categoryColor,
       'spent': instance.spent,
     };
 
@@ -70,7 +70,7 @@ Map<String, dynamic> _$$BudgetAlertImplToJson(_$BudgetAlertImpl instance) =>
 _$CreateBudgetRequestImpl _$$CreateBudgetRequestImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateBudgetRequestImpl(
-      categoryId: (json['categoryId'] as num).toInt(),
+      categoryId: (json['category_id'] as num).toInt(),
       amount: (json['amount'] as num).toDouble(),
       month: json['month'] == null
           ? null
@@ -80,7 +80,7 @@ _$CreateBudgetRequestImpl _$$CreateBudgetRequestImplFromJson(
 Map<String, dynamic> _$$CreateBudgetRequestImplToJson(
         _$CreateBudgetRequestImpl instance) =>
     <String, dynamic>{
-      'categoryId': instance.categoryId,
+      'category_id': instance.categoryId,
       'amount': instance.amount,
       'month': instance.month?.toIso8601String(),
     };

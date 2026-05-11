@@ -21,15 +21,21 @@ TransactionModel _$TransactionModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$TransactionModel {
   int get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'user_id')
   int get userId => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_id')
   int get categoryId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_name')
   String? get categoryName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_icon')
   String? get categoryIcon => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_color')
   String? get categoryColor => throw _privateConstructorUsedError;
   String? get note => throw _privateConstructorUsedError;
   DateTime get date => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -46,16 +52,16 @@ abstract class $TransactionModelCopyWith<$Res> {
   @useResult
   $Res call(
       {int id,
-      int userId,
+      @JsonKey(name: 'user_id') int userId,
       String type,
       double amount,
-      int categoryId,
-      String? categoryName,
-      String? categoryIcon,
-      String? categoryColor,
+      @JsonKey(name: 'category_id') int categoryId,
+      @JsonKey(name: 'category_name') String? categoryName,
+      @JsonKey(name: 'category_icon') String? categoryIcon,
+      @JsonKey(name: 'category_color') String? categoryColor,
       String? note,
       DateTime date,
-      DateTime? createdAt});
+      @JsonKey(name: 'created_at') DateTime? createdAt});
 }
 
 /// @nodoc
@@ -142,16 +148,16 @@ abstract class _$$TransactionModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {int id,
-      int userId,
+      @JsonKey(name: 'user_id') int userId,
       String type,
       double amount,
-      int categoryId,
-      String? categoryName,
-      String? categoryIcon,
-      String? categoryColor,
+      @JsonKey(name: 'category_id') int categoryId,
+      @JsonKey(name: 'category_name') String? categoryName,
+      @JsonKey(name: 'category_icon') String? categoryIcon,
+      @JsonKey(name: 'category_color') String? categoryColor,
       String? note,
       DateTime date,
-      DateTime? createdAt});
+      @JsonKey(name: 'created_at') DateTime? createdAt});
 }
 
 /// @nodoc
@@ -231,16 +237,16 @@ class __$$TransactionModelImplCopyWithImpl<$Res>
 class _$TransactionModelImpl implements _TransactionModel {
   const _$TransactionModelImpl(
       {required this.id,
-      required this.userId,
+      @JsonKey(name: 'user_id') required this.userId,
       required this.type,
       required this.amount,
-      required this.categoryId,
-      this.categoryName,
-      this.categoryIcon,
-      this.categoryColor,
+      @JsonKey(name: 'category_id') required this.categoryId,
+      @JsonKey(name: 'category_name') this.categoryName,
+      @JsonKey(name: 'category_icon') this.categoryIcon,
+      @JsonKey(name: 'category_color') this.categoryColor,
       this.note,
       required this.date,
-      this.createdAt});
+      @JsonKey(name: 'created_at') this.createdAt});
 
   factory _$TransactionModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$TransactionModelImplFromJson(json);
@@ -248,24 +254,30 @@ class _$TransactionModelImpl implements _TransactionModel {
   @override
   final int id;
   @override
+  @JsonKey(name: 'user_id')
   final int userId;
   @override
   final String type;
   @override
   final double amount;
   @override
+  @JsonKey(name: 'category_id')
   final int categoryId;
   @override
+  @JsonKey(name: 'category_name')
   final String? categoryName;
   @override
+  @JsonKey(name: 'category_icon')
   final String? categoryIcon;
   @override
+  @JsonKey(name: 'category_color')
   final String? categoryColor;
   @override
   final String? note;
   @override
   final DateTime date;
   @override
+  @JsonKey(name: 'created_at')
   final DateTime? createdAt;
 
   @override
@@ -329,17 +341,18 @@ class _$TransactionModelImpl implements _TransactionModel {
 
 abstract class _TransactionModel implements TransactionModel {
   const factory _TransactionModel(
-      {required final int id,
-      required final int userId,
-      required final String type,
-      required final double amount,
-      required final int categoryId,
-      final String? categoryName,
-      final String? categoryIcon,
-      final String? categoryColor,
-      final String? note,
-      required final DateTime date,
-      final DateTime? createdAt}) = _$TransactionModelImpl;
+          {required final int id,
+          @JsonKey(name: 'user_id') required final int userId,
+          required final String type,
+          required final double amount,
+          @JsonKey(name: 'category_id') required final int categoryId,
+          @JsonKey(name: 'category_name') final String? categoryName,
+          @JsonKey(name: 'category_icon') final String? categoryIcon,
+          @JsonKey(name: 'category_color') final String? categoryColor,
+          final String? note,
+          required final DateTime date,
+          @JsonKey(name: 'created_at') final DateTime? createdAt}) =
+      _$TransactionModelImpl;
 
   factory _TransactionModel.fromJson(Map<String, dynamic> json) =
       _$TransactionModelImpl.fromJson;
@@ -347,24 +360,30 @@ abstract class _TransactionModel implements TransactionModel {
   @override
   int get id;
   @override
+  @JsonKey(name: 'user_id')
   int get userId;
   @override
   String get type;
   @override
   double get amount;
   @override
+  @JsonKey(name: 'category_id')
   int get categoryId;
   @override
+  @JsonKey(name: 'category_name')
   String? get categoryName;
   @override
+  @JsonKey(name: 'category_icon')
   String? get categoryIcon;
   @override
+  @JsonKey(name: 'category_color')
   String? get categoryColor;
   @override
   String? get note;
   @override
   DateTime get date;
   @override
+  @JsonKey(name: 'created_at')
   DateTime? get createdAt;
   @override
   @JsonKey(ignore: true)
@@ -381,6 +400,7 @@ CreateTransactionRequest _$CreateTransactionRequestFromJson(
 mixin _$CreateTransactionRequest {
   String get type => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
+  @JsonKey(name: 'category_id')
   int? get categoryId => throw _privateConstructorUsedError;
   String? get note => throw _privateConstructorUsedError;
   DateTime? get date => throw _privateConstructorUsedError;
@@ -400,7 +420,7 @@ abstract class $CreateTransactionRequestCopyWith<$Res> {
   $Res call(
       {String type,
       double amount,
-      int? categoryId,
+      @JsonKey(name: 'category_id') int? categoryId,
       String? note,
       DateTime? date});
 }
@@ -462,7 +482,7 @@ abstract class _$$CreateTransactionRequestImplCopyWith<$Res>
   $Res call(
       {String type,
       double amount,
-      int? categoryId,
+      @JsonKey(name: 'category_id') int? categoryId,
       String? note,
       DateTime? date});
 }
@@ -517,7 +537,7 @@ class _$CreateTransactionRequestImpl implements _CreateTransactionRequest {
   const _$CreateTransactionRequestImpl(
       {required this.type,
       required this.amount,
-      this.categoryId,
+      @JsonKey(name: 'category_id') this.categoryId,
       this.note,
       this.date});
 
@@ -529,6 +549,7 @@ class _$CreateTransactionRequestImpl implements _CreateTransactionRequest {
   @override
   final double amount;
   @override
+  @JsonKey(name: 'category_id')
   final int? categoryId;
   @override
   final String? note;
@@ -577,7 +598,7 @@ abstract class _CreateTransactionRequest implements CreateTransactionRequest {
   const factory _CreateTransactionRequest(
       {required final String type,
       required final double amount,
-      final int? categoryId,
+      @JsonKey(name: 'category_id') final int? categoryId,
       final String? note,
       final DateTime? date}) = _$CreateTransactionRequestImpl;
 
@@ -589,6 +610,7 @@ abstract class _CreateTransactionRequest implements CreateTransactionRequest {
   @override
   double get amount;
   @override
+  @JsonKey(name: 'category_id')
   int? get categoryId;
   @override
   String? get note;
@@ -819,7 +841,9 @@ AnalyticsData _$AnalyticsDataFromJson(Map<String, dynamic> json) {
 mixin _$AnalyticsData {
   SummaryData get summary => throw _privateConstructorUsedError;
   List<CategorySummary> get categories => throw _privateConstructorUsedError;
+  @JsonKey(name: 'weekly_spending')
   List<WeeklySpending> get weeklySpending => throw _privateConstructorUsedError;
+  @JsonKey(name: 'daily_totals')
   List<DailyTotal> get dailyTotals => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -837,8 +861,8 @@ abstract class $AnalyticsDataCopyWith<$Res> {
   $Res call(
       {SummaryData summary,
       List<CategorySummary> categories,
-      List<WeeklySpending> weeklySpending,
-      List<DailyTotal> dailyTotals});
+      @JsonKey(name: 'weekly_spending') List<WeeklySpending> weeklySpending,
+      @JsonKey(name: 'daily_totals') List<DailyTotal> dailyTotals});
 
   $SummaryDataCopyWith<$Res> get summary;
 }
@@ -901,8 +925,8 @@ abstract class _$$AnalyticsDataImplCopyWith<$Res>
   $Res call(
       {SummaryData summary,
       List<CategorySummary> categories,
-      List<WeeklySpending> weeklySpending,
-      List<DailyTotal> dailyTotals});
+      @JsonKey(name: 'weekly_spending') List<WeeklySpending> weeklySpending,
+      @JsonKey(name: 'daily_totals') List<DailyTotal> dailyTotals});
 
   @override
   $SummaryDataCopyWith<$Res> get summary;
@@ -951,7 +975,9 @@ class _$AnalyticsDataImpl implements _AnalyticsData {
   const _$AnalyticsDataImpl(
       {required this.summary,
       final List<CategorySummary> categories = const [],
+      @JsonKey(name: 'weekly_spending')
       final List<WeeklySpending> weeklySpending = const [],
+      @JsonKey(name: 'daily_totals')
       final List<DailyTotal> dailyTotals = const []})
       : _categories = categories,
         _weeklySpending = weeklySpending,
@@ -973,7 +999,7 @@ class _$AnalyticsDataImpl implements _AnalyticsData {
 
   final List<WeeklySpending> _weeklySpending;
   @override
-  @JsonKey()
+  @JsonKey(name: 'weekly_spending')
   List<WeeklySpending> get weeklySpending {
     if (_weeklySpending is EqualUnmodifiableListView) return _weeklySpending;
     // ignore: implicit_dynamic_type
@@ -982,7 +1008,7 @@ class _$AnalyticsDataImpl implements _AnalyticsData {
 
   final List<DailyTotal> _dailyTotals;
   @override
-  @JsonKey()
+  @JsonKey(name: 'daily_totals')
   List<DailyTotal> get dailyTotals {
     if (_dailyTotals is EqualUnmodifiableListView) return _dailyTotals;
     // ignore: implicit_dynamic_type
@@ -1033,10 +1059,12 @@ class _$AnalyticsDataImpl implements _AnalyticsData {
 
 abstract class _AnalyticsData implements AnalyticsData {
   const factory _AnalyticsData(
-      {required final SummaryData summary,
-      final List<CategorySummary> categories,
-      final List<WeeklySpending> weeklySpending,
-      final List<DailyTotal> dailyTotals}) = _$AnalyticsDataImpl;
+          {required final SummaryData summary,
+          final List<CategorySummary> categories,
+          @JsonKey(name: 'weekly_spending')
+          final List<WeeklySpending> weeklySpending,
+          @JsonKey(name: 'daily_totals') final List<DailyTotal> dailyTotals}) =
+      _$AnalyticsDataImpl;
 
   factory _AnalyticsData.fromJson(Map<String, dynamic> json) =
       _$AnalyticsDataImpl.fromJson;
@@ -1046,8 +1074,10 @@ abstract class _AnalyticsData implements AnalyticsData {
   @override
   List<CategorySummary> get categories;
   @override
+  @JsonKey(name: 'weekly_spending')
   List<WeeklySpending> get weeklySpending;
   @override
+  @JsonKey(name: 'daily_totals')
   List<DailyTotal> get dailyTotals;
   @override
   @JsonKey(ignore: true)
@@ -1061,8 +1091,11 @@ SummaryData _$SummaryDataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SummaryData {
+  @JsonKey(name: 'total_expense')
   double get totalExpense => throw _privateConstructorUsedError;
+  @JsonKey(name: 'total_income')
   double get totalIncome => throw _privateConstructorUsedError;
+  @JsonKey(name: 'transaction_count')
   int get transactionCount => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1077,7 +1110,10 @@ abstract class $SummaryDataCopyWith<$Res> {
           SummaryData value, $Res Function(SummaryData) then) =
       _$SummaryDataCopyWithImpl<$Res, SummaryData>;
   @useResult
-  $Res call({double totalExpense, double totalIncome, int transactionCount});
+  $Res call(
+      {@JsonKey(name: 'total_expense') double totalExpense,
+      @JsonKey(name: 'total_income') double totalIncome,
+      @JsonKey(name: 'transaction_count') int transactionCount});
 }
 
 /// @nodoc
@@ -1122,7 +1158,10 @@ abstract class _$$SummaryDataImplCopyWith<$Res>
       __$$SummaryDataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double totalExpense, double totalIncome, int transactionCount});
+  $Res call(
+      {@JsonKey(name: 'total_expense') double totalExpense,
+      @JsonKey(name: 'total_income') double totalIncome,
+      @JsonKey(name: 'transaction_count') int transactionCount});
 }
 
 /// @nodoc
@@ -1161,19 +1200,21 @@ class __$$SummaryDataImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SummaryDataImpl implements _SummaryData {
   const _$SummaryDataImpl(
-      {this.totalExpense = 0, this.totalIncome = 0, this.transactionCount = 0});
+      {@JsonKey(name: 'total_expense') this.totalExpense = 0,
+      @JsonKey(name: 'total_income') this.totalIncome = 0,
+      @JsonKey(name: 'transaction_count') this.transactionCount = 0});
 
   factory _$SummaryDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$SummaryDataImplFromJson(json);
 
   @override
-  @JsonKey()
+  @JsonKey(name: 'total_expense')
   final double totalExpense;
   @override
-  @JsonKey()
+  @JsonKey(name: 'total_income')
   final double totalIncome;
   @override
-  @JsonKey()
+  @JsonKey(name: 'transaction_count')
   final int transactionCount;
 
   @override
@@ -1215,18 +1256,22 @@ class _$SummaryDataImpl implements _SummaryData {
 
 abstract class _SummaryData implements SummaryData {
   const factory _SummaryData(
-      {final double totalExpense,
-      final double totalIncome,
-      final int transactionCount}) = _$SummaryDataImpl;
+          {@JsonKey(name: 'total_expense') final double totalExpense,
+          @JsonKey(name: 'total_income') final double totalIncome,
+          @JsonKey(name: 'transaction_count') final int transactionCount}) =
+      _$SummaryDataImpl;
 
   factory _SummaryData.fromJson(Map<String, dynamic> json) =
       _$SummaryDataImpl.fromJson;
 
   @override
+  @JsonKey(name: 'total_expense')
   double get totalExpense;
   @override
+  @JsonKey(name: 'total_income')
   double get totalIncome;
   @override
+  @JsonKey(name: 'transaction_count')
   int get transactionCount;
   @override
   @JsonKey(ignore: true)
@@ -1482,6 +1527,7 @@ WeeklySpending _$WeeklySpendingFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$WeeklySpending {
+  @JsonKey(name: 'week_number')
   double get weekNumber => throw _privateConstructorUsedError;
   double get total => throw _privateConstructorUsedError;
 
@@ -1497,7 +1543,7 @@ abstract class $WeeklySpendingCopyWith<$Res> {
           WeeklySpending value, $Res Function(WeeklySpending) then) =
       _$WeeklySpendingCopyWithImpl<$Res, WeeklySpending>;
   @useResult
-  $Res call({double weekNumber, double total});
+  $Res call({@JsonKey(name: 'week_number') double weekNumber, double total});
 }
 
 /// @nodoc
@@ -1537,7 +1583,7 @@ abstract class _$$WeeklySpendingImplCopyWith<$Res>
       __$$WeeklySpendingImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double weekNumber, double total});
+  $Res call({@JsonKey(name: 'week_number') double weekNumber, double total});
 }
 
 /// @nodoc
@@ -1570,12 +1616,15 @@ class __$$WeeklySpendingImplCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$WeeklySpendingImpl implements _WeeklySpending {
-  const _$WeeklySpendingImpl({required this.weekNumber, required this.total});
+  const _$WeeklySpendingImpl(
+      {@JsonKey(name: 'week_number') required this.weekNumber,
+      required this.total});
 
   factory _$WeeklySpendingImpl.fromJson(Map<String, dynamic> json) =>
       _$$WeeklySpendingImplFromJson(json);
 
   @override
+  @JsonKey(name: 'week_number')
   final double weekNumber;
   @override
   final double total;
@@ -1616,13 +1665,14 @@ class _$WeeklySpendingImpl implements _WeeklySpending {
 
 abstract class _WeeklySpending implements WeeklySpending {
   const factory _WeeklySpending(
-      {required final double weekNumber,
+      {@JsonKey(name: 'week_number') required final double weekNumber,
       required final double total}) = _$WeeklySpendingImpl;
 
   factory _WeeklySpending.fromJson(Map<String, dynamic> json) =
       _$WeeklySpendingImpl.fromJson;
 
   @override
+  @JsonKey(name: 'week_number')
   double get weekNumber;
   @override
   double get total;
