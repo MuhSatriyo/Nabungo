@@ -47,9 +47,21 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
 
   void _quickAmount(String val) {
     setState(() {
-      _amountController.text = val;
+      _amountController.text = _formatRupiah(int.tryParse(val) ?? 0);
       _amount = double.tryParse(val) ?? 0;
     });
+  }
+
+  String _formatRupiah(int number) {
+    final str = number.toString();
+    final buffer = StringBuffer();
+    int count = 0;
+    for (int i = str.length - 1; i >= 0; i--) {
+      if (count > 0 && count % 3 == 0) buffer.write('.');
+      buffer.write(str[i]);
+      count++;
+    }
+    return buffer.toString().split('').reversed.join();
   }
 
   Future<void> _submit() async {
@@ -168,13 +180,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                 ),
               ),
             ),
-            // Amount input
+              // Amount input
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: TextField(
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 autofocus: true,
+                inputFormatters: [ThousandsInputFormatter()],
                 style: theme.textTheme.displayMedium?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
@@ -188,7 +201,7 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
                   border: InputBorder.none,
                   filled: false,
                 ),
-                onChanged: (v) => _amount = double.tryParse(v) ?? 0,
+                onChanged: (v) => _amount = double.tryParse(v.replaceAll('.', '')) ?? 0,
               ),
             ),
             // Quick amounts
@@ -307,5 +320,33 @@ class NumberFormat {
       count++;
     }
     return result;
+  }
+}
+
+class ThousandsInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    final digitsOnly = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
+    if (digitsOnly.isEmpty) {
+      return const TextEditingValue(text: '', selection: TextSelection.collapsed(offset: 0));
+    }
+    final amount = int.tryParse(digitsOnly) ?? 0;
+    final formatted = _format(amount);
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
+    );
+  }
+
+  String _format(int number) {
+    final str = number.toString();
+    final buffer = StringBuffer();
+    int count = 0;
+    for (int i = str.length - 1; i >= 0; i--) {
+      if (count > 0 && count % 3 == 0) buffer.write('.');
+      buffer.write(str[i]);
+      count++;
+    }
+    return buffer.toString().split('').reversed.join();
   }
 }
