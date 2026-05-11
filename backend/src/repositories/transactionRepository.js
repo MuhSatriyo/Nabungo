@@ -137,7 +137,32 @@ const getDailyTotals = async (userId, startDate, endDate) => {
   return result.rows;
 };
 
+const findAllExport = async (userId, { startDate, endDate, type } = {}) => {
+  let query = 'SELECT t.*, c.name as category_name, c.icon as category_icon, c.color as category_color FROM transactions t JOIN categories c ON t.category_id = c.id WHERE t.user_id = $1';
+  const params = [userId];
+  let paramIndex = 2;
+
+  if (type) {
+    query += ` AND t.type = $${paramIndex++}`;
+    params.push(type);
+  }
+  if (startDate) {
+    query += ` AND t.date >= $${paramIndex++}`;
+    params.push(startDate);
+  }
+  if (endDate) {
+    query += ` AND t.date <= $${paramIndex++}`;
+    params.push(endDate);
+  }
+
+  query += ' ORDER BY t.date DESC, t.created_at DESC';
+
+  const result = await db.query(query, params);
+  return result.rows;
+};
+
 module.exports = {
   create, findAll, findById, update, deleteTransaction,
   getSummary, getWeeklySpending, getCategorySummary, getDailyTotals,
+  findAllExport,
 };

@@ -1,12 +1,15 @@
+import 'dart:html' as html;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/foundation.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/locale_provider.dart';
 import '../../providers/theme_provider.dart';
 import '../../widgets/common/glass_card.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/localization/translations_extension.dart';
+import '../../../core/network/api_client.dart';
 
 class SettingsScreen extends ConsumerWidget {
   const SettingsScreen({super.key});
@@ -146,7 +149,7 @@ class SettingsScreen extends ConsumerWidget {
               title: Text(ref.tr('export_data')),
               subtitle: Text(ref.tr('download_transactions'), style: theme.textTheme.bodySmall),
               trailing: Icon(Icons.chevron_right, color: theme.textTheme.bodyMedium?.color),
-              onTap: () {},
+              onTap: () => _showExportSheet(context, ref),
             ),
           ),
           const SizedBox(height: 24),
@@ -160,6 +163,7 @@ class SettingsScreen extends ConsumerWidget {
               leading: const Icon(Icons.delete_outline, color: AppColors.danger),
               title: Text(ref.tr('delete_account'), style: const TextStyle(color: AppColors.danger)),
               subtitle: Text(ref.tr('permanently_delete'), style: theme.textTheme.bodySmall),
+              trailing: Icon(Icons.chevron_right, color: theme.textTheme.bodyMedium?.color),
               onTap: () {
                 showDialog(
                   context: context,
@@ -217,5 +221,124 @@ class SettingsScreen extends ConsumerWidget {
         ],
       ),
     );
+  }
+
+  void _showExportSheet(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (ctx) {
+        final options = [
+          {'key': '1hour', 'label': ref.tr('export_1hour')},
+          {'key': '1day', 'label': ref.tr('export_1day')},
+          {'key': '1week', 'label': ref.tr('export_1week')},
+          {'key': '1month', 'label': ref.tr('export_1month')},
+        ];
+        return Padding(
+          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  width: 40, height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.withValues(alpha: 0.3),
+                    borderRadius: BorderRadius.circular(2),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Text(ref.tr('export_title'), style: theme.textTheme.titleLarge),
+              const SizedBox(height: 4),
+              Text(ref.tr('export_period'),
+                style: theme.textTheme.bodySmall?.copyWith(color: theme.textTheme.bodyMedium?.color)),
+              const SizedBox(height: 20),
+              ...options.map((opt) => Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                      _exportTransactions(context, ref, opt['key']!);
+                    },
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text(opt['label']!),
+                  ),
+                ),
+              )),
+              const SizedBox(height: 8),
+              Center(
+                child: Text(ref.tr('export_max_period'),
+                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _exportTransactions(BuildContext context, WidgetRef ref, String period) {
+    final now = DateTime.now();
+    late DateTime startDate;
+
+    switch (period) {
+      case '1hour':
+        startDate = now.subtract(const Duration(hours: 1));
+        break;
+      case '1day':
+        startDate = now.subtract(const Duration(days: 1));
+        break;
+      case '1week':
+        startDate = now.subtract(const Duration(days: 7));
+        break;
+      case '1month':
+        startDate = DateTime(now.year, now.month - 1, now.day);
+        break;
+      default:
+        startDate = now.subtract(const Duration(days: 30));
+    }
+
+    final api = ref.read(apiClientProvider);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(ref.tr('download_transactions'))),
+    );
+
+    api.get('/transactions/export', queryParameters: {
+      'startDate': startDate.toIso8601String(),
+      'endDate': now.toIso8601String(),
+    }).then((response) {
+      final csv = response.data as String;
+      if (kIsWeb) {
+        final blob = html.Blob([csv], 'text/csv');
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.AnchorElement(href: url)
+          ..setAttribute('download', 'nabungo_transactions.csv')
+          ..click();
+        html.Url.revokeObjectUrl(url);
+      }
+    }).catchError((e) {
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${ref.tr('failed')}: ${e.toString()}'),
+            backgroundColor: AppColors.danger,
+          ),
+        );
+      }
+    });
   }
 }

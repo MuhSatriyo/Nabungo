@@ -17,6 +17,7 @@ router.post('/', [
 ], transactionController.create);
 
 router.get('/', transactionController.getAll);
+router.get('/export', transactionController.exportCSV);
 router.get('/analytics', transactionController.getAnalytics);
 router.get('/:id', transactionController.getById);
 router.put('/:id', transactionController.update);

@@ -124,4 +124,26 @@ const getAnalytics = async (userId, period = 'month') => {
   };
 };
 
-module.exports = { create, getAll, getById, update, remove, getAnalytics };
+const _escapeCSV = (val) => {
+  if (val == null) return '';
+  const str = String(val);
+  if (str.includes(',') || str.includes('"') || str.includes('\n')) {
+    return `"${str.replace(/"/g, '""')}"`;
+  }
+  return str;
+};
+
+const exportCSV = async (userId, query) => {
+  const transactions = await transactionRepository.findAllExport(userId, query);
+  const header = 'Date,Type,Amount,Category,Note';
+  const rows = transactions.map(tx => [
+    _escapeCSV(tx.date),
+    _escapeCSV(tx.type),
+    _escapeCSV(tx.amount),
+    _escapeCSV(tx.category_name),
+    _escapeCSV(tx.note),
+  ].join(','));
+  return [header, ...rows].join('\n');
+};
+
+module.exports = { create, getAll, getById, update, remove, getAnalytics, exportCSV };

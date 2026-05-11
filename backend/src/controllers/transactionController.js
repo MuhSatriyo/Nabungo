@@ -58,4 +58,15 @@ const getAnalytics = async (req, res, next) => {
   }
 };
 
-module.exports = { create, getAll, getById, update, remove, getAnalytics };
+const exportCSV = async (req, res, next) => {
+  try {
+    const csv = await transactionService.exportCSV(req.user.id, req.query);
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', 'attachment; filename="nabungo_transactions.csv"');
+    res.send(csv);
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = { create, getAll, getById, update, remove, getAnalytics, exportCSV };
