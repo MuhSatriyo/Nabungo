@@ -63,8 +63,9 @@ class TransactionShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: List.generate(
-        5,
+        3,
         (index) => const Padding(
           padding: EdgeInsets.symmetric(horizontal: 16, vertical: 6),
           child: Row(
