@@ -59,29 +59,45 @@ class SettingsScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           // Language toggle
           GlassCard(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             borderRadius: 14,
-            child: ListTile(
-              leading: const Icon(Icons.language),
-              title: Text(ref.tr('language')),
-              subtitle: Text(
-                currentLocale == 'id' ? ref.tr('indonesian') : ref.tr('english'),
-                style: theme.textTheme.bodySmall,
-              ),
-              trailing: SegmentedButton<String>(
-                segments: [
-                  ButtonSegment(value: 'id', label: Text(ref.tr('indonesian'))),
-                  ButtonSegment(value: 'en', label: Text(ref.tr('english'))),
-                ],
-                selected: {currentLocale},
-                onSelectionChanged: (v) {
-                  ref.read(localeProvider.notifier).setLocale(v.first);
-                },
-                style: ButtonStyle(
-                  visualDensity: VisualDensity.compact,
-                  tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.language),
+                    const SizedBox(width: 12),
+                    Text(ref.tr('language'), style: theme.textTheme.titleMedium),
+                  ],
                 ),
-              ),
+                const SizedBox(height: 4),
+                Padding(
+                  padding: const EdgeInsets.only(left: 36),
+                  child: Text(
+                    currentLocale == 'id' ? ref.tr('indonesian') : ref.tr('english'),
+                    style: theme.textTheme.bodySmall,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: SegmentedButton<String>(
+                    segments: [
+                      ButtonSegment(value: 'id', label: Text(ref.tr('indonesian'))),
+                      ButtonSegment(value: 'en', label: Text(ref.tr('english'))),
+                    ],
+                    selected: {currentLocale},
+                    onSelectionChanged: (v) {
+                      ref.read(localeProvider.notifier).setLocale(v.first);
+                    },
+                    style: ButtonStyle(
+                      visualDensity: VisualDensity.compact,
+                      tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
           const SizedBox(height: 8),
