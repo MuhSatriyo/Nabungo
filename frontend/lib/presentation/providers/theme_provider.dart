@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/datasources/local/local_storage.dart';
 
-final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
+final themeProvider = StateNotifierProvider.autoDispose<ThemeNotifier, ThemeMode>((ref) {
   final localStorage = ref.read(localStorageProvider);
   return ThemeNotifier(localStorage);
 });

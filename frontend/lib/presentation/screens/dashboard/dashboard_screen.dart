@@ -47,6 +47,14 @@ class _DashboardScreenState extends ConsumerState<DashboardScreen> {
     final gameState = ref.watch(gamificationProvider);
     final isDark = theme.brightness == Brightness.dark;
 
+    ref.listen(transactionProvider, (prev, next) {
+      if (next.error != null && next.error != prev?.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error!), backgroundColor: AppColors.danger),
+        );
+      }
+    });
+
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () async => _loadData(),

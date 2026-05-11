@@ -9,10 +9,10 @@ class UserModel with _$UserModel {
     required int id,
     required String name,
     required String email,
-    String? avatarUrl,
+    @JsonKey(name: 'avatar_url') String? avatarUrl,
     @Default(0) int xp,
     @Default(1) int level,
-    DateTime? createdAt,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _UserModel;
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/network/api_client.dart';
 import '../../data/models/insight_model.dart';
 
-final insightProvider = StateNotifierProvider<InsightNotifier, InsightState>((ref) {
+final insightProvider = StateNotifierProvider.autoDispose<InsightNotifier, InsightState>((ref) {
   return InsightNotifier(ref.read(apiClientProvider));
 });
 
@@ -44,9 +44,15 @@ class InsightNotifier extends StateNotifier<InsightState> {
             .map((e) => InsightModel.fromJson(e))
             .toList();
         state = state.copyWith(isLoading: false, insights: insights);
+      } else {
+        state = state.copyWith(isLoading: false, error: 'Failed to load insights');
       }
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
     }
+  }
+
+  void clearError() {
+    state = state.copyWith(error: null);
   }
 }

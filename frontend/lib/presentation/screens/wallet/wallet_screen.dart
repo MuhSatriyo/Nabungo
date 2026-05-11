@@ -5,6 +5,7 @@ import '../../providers/transaction_provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/common/glass_card.dart';
 import '../../widgets/common/empty_state.dart';
+import '../../widgets/common/shimmer_loading.dart';
 import '../../../core/constants/colors.dart';
 import '../../../core/utils/extensions.dart';
 
@@ -17,20 +18,30 @@ class WalletScreen extends ConsumerStatefulWidget {
 
 class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
+    _scrollController.addListener(_onScroll);
     Future.microtask(() {
-      ref.read(transactionProvider.notifier).loadTransactions();
+      ref.read(transactionProvider.notifier).loadTransactions(params: {'limit': '20'});
+      ref.read(transactionProvider.notifier).loadAnalytics();
     });
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
+      ref.read(transactionProvider.notifier).loadTransactions(loadMore: true);
+    }
   }
 
   @override
@@ -41,9 +52,18 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
     final expenses = txState.transactions.where((t) => t.type == 'expense').toList();
     final incomes = txState.transactions.where((t) => t.type == 'income').toList();
 
+    ref.listen(transactionProvider, (prev, next) {
+      if (next.error != null && next.error != prev?.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error!), backgroundColor: AppColors.danger),
+        );
+      }
+    });
+
     return Scaffold(
       body: SafeArea(
         child: NestedScrollView(
+          controller: _scrollController,
           headerSliverBuilder: (context, innerBoxIsScrolled) => [
             SliverToBoxAdapter(
               child: Padding(
@@ -167,8 +187,8 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
           body: TabBarView(
             controller: _tabController,
             children: [
-              _buildTransactionList(theme, expenses),
-              _buildTransactionList(theme, incomes),
+              _buildTransactionList(theme, expenses, txState.isLoading),
+              _buildTransactionList(theme, incomes, txState.isLoading),
             ],
           ),
         ),
@@ -176,7 +196,10 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
     ).animate().fadeIn(duration: 400.ms);
   }
 
-  Widget _buildTransactionList(ThemeData theme, List<dynamic> transactions) {
+  Widget _buildTransactionList(ThemeData theme, List<dynamic> transactions, bool isLoading) {
+    if (isLoading && transactions.isEmpty) {
+      return const TransactionShimmer();
+    }
     if (transactions.isEmpty) {
       return const EmptyState(
         title: 'No transactions',
@@ -188,8 +211,14 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
       onRefresh: () async => ref.read(transactionProvider.notifier).loadTransactions(),
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        itemCount: transactions.length,
+        itemCount: transactions.length + (isLoading ? 1 : 0),
         itemBuilder: (context, index) {
+          if (index >= transactions.length) {
+            return const Padding(
+              padding: EdgeInsets.all(16),
+              child: Center(child: CircularProgressIndicator()),
+            );
+          }
           final tx = transactions[index];
           return Container(
             margin: const EdgeInsets.only(bottom: 8),

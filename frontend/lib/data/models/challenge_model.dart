@@ -11,11 +11,11 @@ class ChallengeModel with _$ChallengeModel {
     String? description,
     String? icon,
     required String difficulty,
-    @Default(50) int xpReward,
-    @Default(3) int daysRequired,
-    String? requirementType,
-    String? requirementValue,
-    @Default(true) bool isActive,
+    @JsonKey(name: 'xp_reward') @Default(50) int xpReward,
+    @JsonKey(name: 'days_required') @Default(3) int daysRequired,
+    @JsonKey(name: 'requirement_type') String? requirementType,
+    @JsonKey(name: 'requirement_value') String? requirementValue,
+    @JsonKey(name: 'is_active') @Default(true) bool isActive,
   }) = _ChallengeModel;
 
   factory ChallengeModel.fromJson(Map<String, dynamic> json) =>
@@ -26,18 +26,18 @@ class ChallengeModel with _$ChallengeModel {
 class UserChallenge with _$UserChallenge {
   const factory UserChallenge({
     required int id,
-    required int userId,
-    required int challengeId,
+    @JsonKey(name: 'user_id') required int userId,
+    @JsonKey(name: 'challenge_id') required int challengeId,
     required String status,
     @Default(0) int progress,
     String? title,
     String? description,
     String? difficulty,
-    int? xpReward,
-    int? daysRequired,
+    @JsonKey(name: 'xp_reward') int? xpReward,
+    @JsonKey(name: 'days_required') int? daysRequired,
     String? icon,
-    DateTime? startedAt,
-    DateTime? completedAt,
+    @JsonKey(name: 'started_at') DateTime? startedAt,
+    @JsonKey(name: 'completed_at') DateTime? completedAt,
   }) = _UserChallenge;
 
   factory UserChallenge.fromJson(Map<String, dynamic> json) =>
@@ -52,7 +52,7 @@ class BadgeModel with _$BadgeModel {
     String? description,
     String? icon,
     required String code,
-    DateTime? earnedAt,
+    @JsonKey(name: 'earned_at') DateTime? earnedAt,
   }) = _BadgeModel;
 
   factory BadgeModel.fromJson(Map<String, dynamic> json) =>
@@ -77,9 +77,9 @@ class GamificationStatus with _$GamificationStatus {
 @freezed
 class StreakData with _$StreakData {
   const factory StreakData({
-    @Default(0) int currentStreak,
-    @Default(0) int longestStreak,
-    DateTime? lastActivityDate,
+    @JsonKey(name: 'current_streak') @Default(0) int currentStreak,
+    @JsonKey(name: 'longest_streak') @Default(0) int longestStreak,
+    @JsonKey(name: 'last_activity_date') DateTime? lastActivityDate,
   }) = _StreakData;
 
   factory StreakData.fromJson(Map<String, dynamic> json) =>

@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/network/api_client.dart';
 import '../../data/models/challenge_model.dart';
 
-final gamificationProvider = StateNotifierProvider<GamificationNotifier, GamificationState>((ref) {
+final gamificationProvider = StateNotifierProvider.autoDispose<GamificationNotifier, GamificationState>((ref) {
   return GamificationNotifier(ref.read(apiClientProvider));
 });
 
@@ -48,6 +48,8 @@ class GamificationNotifier extends StateNotifier<GamificationState> {
           isLoading: false,
           status: GamificationStatus.fromJson(response.data['data']),
         );
+      } else {
+        state = state.copyWith(isLoading: false, error: 'Failed to load gamification status');
       }
     } catch (e) {
       state = state.copyWith(isLoading: false, error: e.toString());
@@ -62,6 +64,8 @@ class GamificationNotifier extends StateNotifier<GamificationState> {
             .map((e) => ChallengeModel.fromJson(e))
             .toList();
         state = state.copyWith(challenges: challenges);
+      } else {
+        state = state.copyWith(error: 'Failed to load challenges');
       }
     } catch (e) {
       state = state.copyWith(error: e.toString());
@@ -75,5 +79,9 @@ class GamificationNotifier extends StateNotifier<GamificationState> {
     } catch (e) {
       state = state.copyWith(error: e.toString());
     }
+  }
+
+  void clearError() {
+    state = state.copyWith(error: null);
   }
 }

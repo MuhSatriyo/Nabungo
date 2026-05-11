@@ -37,6 +37,14 @@ class _StatisticsScreenState extends ConsumerState<StatisticsScreen> {
     final txState = ref.watch(transactionProvider);
     final analytics = txState.analytics;
 
+    ref.listen(transactionProvider, (prev, next) {
+      if (next.error != null && next.error != prev?.error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error!), backgroundColor: AppColors.danger),
+        );
+      }
+    });
+
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(

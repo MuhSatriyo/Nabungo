@@ -7,12 +7,12 @@ part 'budget_model.g.dart';
 class BudgetModel with _$BudgetModel {
   const factory BudgetModel({
     required int id,
-    required int userId,
-    required int categoryId,
+    @JsonKey(name: 'user_id') required int userId,
+    @JsonKey(name: 'category_id') required int categoryId,
     required double amount,
     required DateTime month,
-    String? categoryName,
-    String? categoryIcon,
+    @JsonKey(name: 'category_name') String? categoryName,
+    @JsonKey(name: 'category_icon') String? categoryIcon,
   }) = _BudgetModel;
 
   factory BudgetModel.fromJson(Map<String, dynamic> json) =>
@@ -23,11 +23,11 @@ class BudgetModel with _$BudgetModel {
 class BudgetProgress with _$BudgetProgress {
   const factory BudgetProgress({
     required int id,
-    required double budgetAmount,
-    required int categoryId,
-    required String categoryName,
-    required String categoryIcon,
-    required String categoryColor,
+    @JsonKey(name: 'budget_amount') required double budgetAmount,
+    @JsonKey(name: 'category_id') required int categoryId,
+    @JsonKey(name: 'category_name') required String categoryName,
+    @JsonKey(name: 'category_icon') required String categoryIcon,
+    @JsonKey(name: 'category_color') required String categoryColor,
     required double spent,
   }) = _BudgetProgress;
 
@@ -51,7 +51,7 @@ class BudgetAlert with _$BudgetAlert {
 @freezed
 class CreateBudgetRequest with _$CreateBudgetRequest {
   const factory CreateBudgetRequest({
-    required int categoryId,
+    @JsonKey(name: 'category_id') required int categoryId,
     required double amount,
     DateTime? month,
   }) = _CreateBudgetRequest;

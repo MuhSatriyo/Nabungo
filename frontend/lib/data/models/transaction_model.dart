@@ -7,16 +7,16 @@ part 'transaction_model.g.dart';
 class TransactionModel with _$TransactionModel {
   const factory TransactionModel({
     required int id,
-    required int userId,
+    @JsonKey(name: 'user_id') required int userId,
     required String type,
     required double amount,
-    required int categoryId,
-    String? categoryName,
-    String? categoryIcon,
-    String? categoryColor,
+    @JsonKey(name: 'category_id') required int categoryId,
+    @JsonKey(name: 'category_name') String? categoryName,
+    @JsonKey(name: 'category_icon') String? categoryIcon,
+    @JsonKey(name: 'category_color') String? categoryColor,
     String? note,
     required DateTime date,
-    DateTime? createdAt,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _TransactionModel;
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) =>
@@ -28,7 +28,7 @@ class CreateTransactionRequest with _$CreateTransactionRequest {
   const factory CreateTransactionRequest({
     required String type,
     required double amount,
-    int? categoryId,
+    @JsonKey(name: 'category_id') int? categoryId,
     String? note,
     DateTime? date,
   }) = _CreateTransactionRequest;
@@ -56,8 +56,8 @@ class AnalyticsData with _$AnalyticsData {
   const factory AnalyticsData({
     required SummaryData summary,
     @Default([]) List<CategorySummary> categories,
-    @Default([]) List<WeeklySpending> weeklySpending,
-    @Default([]) List<DailyTotal> dailyTotals,
+    @JsonKey(name: 'weekly_spending') @Default([]) List<WeeklySpending> weeklySpending,
+    @JsonKey(name: 'daily_totals') @Default([]) List<DailyTotal> dailyTotals,
   }) = _AnalyticsData;
 
   factory AnalyticsData.fromJson(Map<String, dynamic> json) =>
@@ -67,9 +67,9 @@ class AnalyticsData with _$AnalyticsData {
 @freezed
 class SummaryData with _$SummaryData {
   const factory SummaryData({
-    @Default(0) double totalExpense,
-    @Default(0) double totalIncome,
-    @Default(0) int transactionCount,
+    @JsonKey(name: 'total_expense') @Default(0) double totalExpense,
+    @JsonKey(name: 'total_income') @Default(0) double totalIncome,
+    @JsonKey(name: 'transaction_count') @Default(0) int transactionCount,
   }) = _SummaryData;
 
   factory SummaryData.fromJson(Map<String, dynamic> json) =>
@@ -94,7 +94,7 @@ class CategorySummary with _$CategorySummary {
 @freezed
 class WeeklySpending with _$WeeklySpending {
   const factory WeeklySpending({
-    required double weekNumber,
+    @JsonKey(name: 'week_number') required double weekNumber,
     required double total,
   }) = _WeeklySpending;
 

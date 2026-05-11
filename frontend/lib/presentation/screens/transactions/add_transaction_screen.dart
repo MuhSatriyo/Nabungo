@@ -85,6 +85,14 @@ class _AddTransactionScreenState extends ConsumerState<AddTransactionScreen> {
       }
     } catch (e) {
       setState(() => _isLoading = false);
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Gagal: ${e.toString().replaceAll('Exception: ', '')}'),
+            backgroundColor: AppColors.danger,
+          ),
+        );
+      }
     }
   }
 
