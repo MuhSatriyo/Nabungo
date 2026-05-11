@@ -8,9 +8,3 @@ extension TranslationsExtension on WidgetRef {
     return AppStrings.tr(key, locale: locale, params: params);
   }
 }
-
-extension BuildContextTr on BuildContext {
-  String tr(String key, {Map<String, String>? params}) {
-    return AppStrings.tr(key, params: params);
-  }
-}
