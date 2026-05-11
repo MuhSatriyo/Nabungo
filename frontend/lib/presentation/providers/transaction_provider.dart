@@ -52,11 +52,19 @@ class TransactionState {
 
 class TransactionNotifier extends StateNotifier<TransactionState> {
   final TransactionRemoteDataSource _dataSource;
+  bool _disposed = false;
 
   TransactionNotifier(this._dataSource, LocalStorage localStorage)
       : super(const TransactionState());
 
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
   Future<void> loadTransactions({Map<String, dynamic>? params, bool loadMore = false}) async {
+    if (_disposed) return;
     if (loadMore && !state.hasMore) return;
     state = state.copyWith(isLoading: true, error: null);
     try {
@@ -69,41 +77,54 @@ class TransactionNotifier extends StateNotifier<TransactionState> {
         'limit': limit.toString(),
       };
       final transactions = await _dataSource.getAll(params: queryParams);
-      state = state.copyWith(
-        isLoading: false,
-        transactions: loadMore ? [...state.transactions, ...transactions] : transactions,
-        hasMore: transactions.length >= limit,
-        currentPage: page,
-      );
+      if (!_disposed) {
+        state = state.copyWith(
+          isLoading: false,
+          transactions: loadMore ? [...state.transactions, ...transactions] : transactions,
+          hasMore: transactions.length >= limit,
+          currentPage: page,
+        );
+      }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        error: e.toString().replaceAll('Exception: ', ''),
-      );
+      if (!_disposed) {
+        state = state.copyWith(
+          isLoading: false,
+          error: e.toString().replaceAll('Exception: ', ''),
+        );
+      }
     }
   }
 
   Future<void> loadAnalytics({String period = 'month'}) async {
+    if (_disposed) return;
     state = state.copyWith(isLoading: true);
     try {
       final analytics = await _dataSource.getAnalytics(period: period);
-      state = state.copyWith(isLoading: false, analytics: analytics);
+      if (!_disposed) {
+        state = state.copyWith(isLoading: false, analytics: analytics);
+      }
     } catch (e) {
-      state = state.copyWith(
-        isLoading: false,
-        analytics: const AnalyticsData(summary: SummaryData()),
-        error: e.toString().replaceAll('Exception: ', ''),
-      );
+      if (!_disposed) {
+        state = state.copyWith(
+          isLoading: false,
+          analytics: const AnalyticsData(summary: SummaryData()),
+          error: e.toString().replaceAll('Exception: ', ''),
+        );
+      }
     }
   }
 
   Future<void> createTransaction(Map<String, dynamic> data) async {
     try {
       await _dataSource.create(data);
+      if (_disposed) return;
       await loadTransactions();
+      if (_disposed) return;
       await loadAnalytics();
     } catch (e) {
-      state = state.copyWith(error: e.toString().replaceAll('Exception: ', ''));
+      if (!_disposed) {
+        state = state.copyWith(error: e.toString().replaceAll('Exception: ', ''));
+      }
       rethrow;
     }
   }
@@ -111,14 +132,20 @@ class TransactionNotifier extends StateNotifier<TransactionState> {
   Future<void> deleteTransaction(int id) async {
     try {
       await _dataSource.delete(id);
+      if (_disposed) return;
       await loadTransactions();
+      if (_disposed) return;
       await loadAnalytics();
     } catch (e) {
-      state = state.copyWith(error: e.toString().replaceAll('Exception: ', ''));
+      if (!_disposed) {
+        state = state.copyWith(error: e.toString().replaceAll('Exception: ', ''));
+      }
     }
   }
 
   void clearError() {
-    state = state.copyWith(error: null);
+    if (!_disposed) {
+      state = state.copyWith(error: null);
+    }
   }
 }
