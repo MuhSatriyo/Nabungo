@@ -112,6 +112,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                             children: [
                               Expanded(
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
                                       padding: const EdgeInsets.all(6),
@@ -137,6 +138,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> with SingleTickerPr
                               ),
                               Expanded(
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Container(
                                       padding: const EdgeInsets.all(6),
