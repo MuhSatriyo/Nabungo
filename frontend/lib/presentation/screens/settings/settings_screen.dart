@@ -223,94 +223,114 @@ class SettingsScreen extends ConsumerWidget {
     );
   }
 
+  static const _months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
+    'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'
+  ];
+
   void _showExportSheet(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
+    final now = DateTime.now();
+
+    int fromDay = now.day;
+    int fromMonth = now.month;
+    int fromYear = now.year;
+    int fromHour = now.hour;
+    int toDay = now.day;
+    int toMonth = now.month;
+    int toYear = now.year;
+    int toHour = now.hour;
 
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       builder: (ctx) {
-        final options = [
-          {'key': '1hour', 'label': ref.tr('export_1hour')},
-          {'key': '1day', 'label': ref.tr('export_1day')},
-          {'key': '1week', 'label': ref.tr('export_1week')},
-          {'key': '1month', 'label': ref.tr('export_1month')},
-        ];
-        return Padding(
-          padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Center(
-                child: Container(
-                  width: 40, height: 4,
-                  decoration: BoxDecoration(
-                    color: Colors.grey.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Text(ref.tr('export_title'), style: theme.textTheme.titleLarge),
-              const SizedBox(height: 4),
-              Text(ref.tr('export_period'),
-                style: theme.textTheme.bodySmall?.copyWith(color: theme.textTheme.bodyMedium?.color)),
-              const SizedBox(height: 20),
-              ...options.map((opt) => Padding(
-                padding: const EdgeInsets.only(bottom: 8),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      Navigator.pop(ctx);
-                      _exportTransactions(context, ref, opt['key']!);
-                    },
-                    style: OutlinedButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
+        return StatefulBuilder(
+          builder: (ctx, setSheetState) {
+            final maxDayFrom = DateTime(fromYear, fromMonth + 1, 0).day;
+            if (fromDay > maxDayFrom) fromDay = maxDayFrom;
+            final maxDayTo = DateTime(toYear, toMonth + 1, 0).day;
+            if (toDay > maxDayTo) toDay = maxDayTo;
+
+            return Padding(
+              padding: EdgeInsets.fromLTRB(24, 16, 24, MediaQuery.of(ctx).viewInsets.bottom + 32),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 40, height: 4,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.withValues(alpha: 0.3),
+                        borderRadius: BorderRadius.circular(2),
                       ),
                     ),
-                    child: Text(opt['label']!),
                   ),
-                ),
-              )),
-              const SizedBox(height: 8),
-              Center(
-                child: Text(ref.tr('export_max_period'),
-                  style: theme.textTheme.bodySmall?.copyWith(color: theme.colorScheme.error)),
+                  const SizedBox(height: 20),
+                  Text(ref.tr('export_title'), style: theme.textTheme.titleLarge),
+                  const SizedBox(height: 20),
+                  // FROM row
+                  Text(ref.tr('export_from'), style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      _DateDropdown(label: ref.tr('export_date'), value: fromDay, max: maxDayFrom, onChanged: (v) => setSheetState(() => fromDay = v)),
+                      const SizedBox(width: 8),
+                      _DateDropdown(label: ref.tr('export_month'), value: fromMonth, max: 12, display: (v) => _months[v - 1], onChanged: (v) => setSheetState(() => fromMonth = v)),
+                      const SizedBox(width: 8),
+                      _DateDropdown(label: ref.tr('export_year'), value: fromYear, max: now.year, min: now.year - 2, onChanged: (v) => setSheetState(() => fromYear = v)),
+                      const SizedBox(width: 8),
+                      _DateDropdown(label: ref.tr('export_hour'), value: fromHour, max: 23, display: (v) => v.toString().padLeft(2, '0'), onChanged: (v) => setSheetState(() => fromHour = v)),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  // TO row
+                  Text(ref.tr('export_to'), style: theme.textTheme.titleMedium),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      _DateDropdown(label: ref.tr('export_date'), value: toDay, max: maxDayTo, onChanged: (v) => setSheetState(() => toDay = v)),
+                      const SizedBox(width: 8),
+                      _DateDropdown(label: ref.tr('export_month'), value: toMonth, max: 12, display: (v) => _months[v - 1], onChanged: (v) => setSheetState(() => toMonth = v)),
+                      const SizedBox(width: 8),
+                      _DateDropdown(label: ref.tr('export_year'), value: toYear, max: now.year, min: now.year - 2, onChanged: (v) => setSheetState(() => toYear = v)),
+                      const SizedBox(width: 8),
+                      _DateDropdown(label: ref.tr('export_hour'), value: toHour, max: 23, display: (v) => v.toString().padLeft(2, '0'), onChanged: (v) => setSheetState(() => toHour = v)),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                        final start = DateTime(fromYear, fromMonth, fromDay, fromHour);
+                        final end = DateTime(toYear, toMonth, toDay, toHour);
+                        _exportTransactions(context, ref, start, end);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: Text(ref.tr('export_btn')),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            );
+          },
         );
       },
     );
   }
 
-  void _exportTransactions(BuildContext context, WidgetRef ref, String period) {
-    final now = DateTime.now();
-    late DateTime startDate;
-
-    switch (period) {
-      case '1hour':
-        startDate = now.subtract(const Duration(hours: 1));
-        break;
-      case '1day':
-        startDate = now.subtract(const Duration(days: 1));
-        break;
-      case '1week':
-        startDate = now.subtract(const Duration(days: 7));
-        break;
-      case '1month':
-        startDate = DateTime(now.year, now.month - 1, now.day);
-        break;
-      default:
-        startDate = now.subtract(const Duration(days: 30));
-    }
-
+  void _exportTransactions(BuildContext context, WidgetRef ref, DateTime startDate, DateTime endDate) {
     final api = ref.read(apiClientProvider);
 
     ScaffoldMessenger.of(context).showSnackBar(
@@ -319,7 +339,7 @@ class SettingsScreen extends ConsumerWidget {
 
     api.get('/transactions/export', queryParameters: {
       'startDate': startDate.toIso8601String(),
-      'endDate': now.toIso8601String(),
+      'endDate': endDate.toIso8601String(),
     }).then((response) {
       final csv = response.data as String;
       if (kIsWeb) {
@@ -340,5 +360,59 @@ class SettingsScreen extends ConsumerWidget {
         );
       }
     });
+  }
+}
+
+class _DateDropdown extends StatelessWidget {
+  final String label;
+  final int value;
+  final int max;
+  final int min;
+  final String Function(int)? display;
+  final ValueChanged<int> onChanged;
+
+  const _DateDropdown({
+    required this.label,
+    required this.value,
+    required this.max,
+    this.min = 1,
+    this.display,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(label, style: const TextStyle(fontSize: 10)),
+          const SizedBox(height: 4),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              border: Border.all(color: Colors.grey.withValues(alpha: 0.3)),
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: DropdownButtonHideUnderline(
+              child: DropdownButton<int>(
+                value: value.clamp(min, max),
+                isDense: true,
+                style: const TextStyle(fontSize: 12),
+                items: List.generate(max - min + 1, (i) => min + i).map((v) {
+                  return DropdownMenuItem(
+                    value: v,
+                    child: Text(display != null ? display!(v) : v.toString(), overflow: TextOverflow.visible),
+                  );
+                }).toList(),
+                onChanged: (v) {
+                  if (v != null) onChanged(v);
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
